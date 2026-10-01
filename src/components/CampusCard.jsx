@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 import { formatPrice } from "../utils/formatPrice";
 
@@ -49,14 +50,14 @@ export default function CampusCard({
         once: true,
         margin: "-50px",
       }}
-      className="flex flex-col lg:flex-row gap-6 lg:gap-10 bg-white p-5 sm:p-8 rounded-[2rem] shadow-[0_15px_35px_-15px_rgba(0,0,0,0.05)] border border-stone-200/60"
+      className="flex flex-col lg:flex-row gap-5 lg:gap-10 bg-white p-4 sm:p-8 rounded-[2rem] shadow-[0_15px_35px_-15px_rgba(0,0,0,0.05)] border border-stone-200/60"
     >
       {/* IMAGE SECTION */}
 
       <div className="w-full lg:w-1/2 flex flex-col gap-3">
         <button
           type="button"
-          className="w-full h-[260px] sm:h-[340px] bg-stone-100 rounded-[1.25rem] overflow-hidden relative cursor-zoom-in group text-left"
+          className="w-full h-[230px] sm:h-[340px] bg-stone-100 rounded-[1.25rem] overflow-hidden relative cursor-zoom-in group text-left"
           onClick={() =>
             openLightbox(activeImage)
           }
@@ -67,6 +68,7 @@ export default function CampusCard({
             alt={`${campus.name} - ${campus.location.display}`}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
             loading="lazy"
+            decoding="async"
           />
 
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
@@ -105,6 +107,7 @@ export default function CampusCard({
                   }`}
                   className="w-full h-full object-cover"
                   loading="lazy"
+                  decoding="async"
                 />
               </button>
             )
@@ -309,28 +312,37 @@ export default function CampusCard({
 
         {/* ACTION BUTTONS */}
 
-        <div className="flex flex-col sm:flex-row gap-3 mt-auto">
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={`inline-flex flex-1 px-6 py-3 text-white text-[10px] font-bold uppercase tracking-widest rounded-full transition-all justify-center items-center active:scale-95 shadow-sm ${
-              isMen
-                ? "bg-slate-800 hover:bg-slate-900"
-                : "bg-rose-800 hover:bg-rose-900"
-            }`}
+        <div className="mt-auto space-y-3">
+          <Link
+            to={`/pg/${campus.slug}`}
+            className="flex w-full justify-center rounded-full border border-stone-300 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-stone-700 transition-all hover:bg-stone-50 active:scale-95"
           >
-            Check Availability
-          </a>
+            View Details
+          </Link>
 
-          {campus.contact.phone && (
+          <div className="flex flex-col sm:flex-row gap-3">
             <a
-              href={`tel:${campus.contact.phone}`}
-              className="inline-flex px-6 py-3 border border-stone-300 text-stone-700 text-[10px] font-bold uppercase tracking-widest rounded-full justify-center items-center hover:bg-stone-50 transition-all active:scale-95"
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={`inline-flex flex-1 px-6 py-3 text-white text-[10px] font-bold uppercase tracking-widest rounded-full transition-all justify-center items-center active:scale-95 shadow-sm ${
+                isMen
+                  ? "bg-slate-800 hover:bg-slate-900"
+                  : "bg-rose-800 hover:bg-rose-900"
+              }`}
             >
-              Call Now
+              Check Availability
             </a>
-          )}
+
+            {campus.contact.phone && (
+              <a
+                href={`tel:${campus.contact.phone}`}
+                className="inline-flex px-6 py-3 border border-stone-300 text-stone-700 text-[10px] font-bold uppercase tracking-widest rounded-full justify-center items-center hover:bg-stone-50 transition-all active:scale-95"
+              >
+                Call Now
+              </a>
+            )}
+          </div>
         </div>
       </div>
     </motion.article>
