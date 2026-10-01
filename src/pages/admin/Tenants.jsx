@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useCallback } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 
 import AdminHeader from "../../components/admin/AdminHeader.jsx";
 import PremiumSelect from "../../components/admin/PremiumSelect.jsx";
@@ -60,6 +60,9 @@ export default function Tenants() {
   const [error, setError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [accountRecovery, setAccountRecovery] = useState(null);
+  const [portalAccountTenant, setPortalAccountTenant] = useState(null);
+  const [portalUsername, setPortalUsername] = useState("");
+  const [isCreatingPortalAccount, setIsCreatingPortalAccount] = useState(false);
 
   const clearError = useCallback(() => {
     setError("");
@@ -326,7 +329,8 @@ export default function Tenants() {
 
         setSuccessMessage(
           "Tenant and portal account created. Activation email sent to the Tenant."
-        );      } catch (accountError) {
+        );
+      } catch (accountError) {
         setAccountRecovery({
           tenantId: createdTenant.tenantId,
           tenantName: createdTenant.name,
@@ -371,12 +375,6 @@ export default function Tenants() {
         username: accountRecovery.username,
       });
 
-      setOnboardingResult({
-        tenantName: accountRecovery.tenantName,
-        buildingName: "Already assigned",
-        roomNumber: "Already assigned",
-        username: accountRecovery.username,
-      });
       setAccountRecovery(null);
       setSuccessMessage("Portal account created successfully.");
     } catch (requestError) {
@@ -388,6 +386,56 @@ export default function Tenants() {
       );
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const openPortalAccountModal = (tenant) => {
+    setPortalAccountTenant(tenant);
+    setPortalUsername(tenant.mobileNumber || "");
+    setError("");
+    setSuccessMessage("");
+  };
+
+  const closePortalAccountModal = () => {
+    if (isCreatingPortalAccount) return;
+    setPortalAccountTenant(null);
+    setPortalUsername("");
+  };
+
+  const handleCreatePortalAccount = async () => {
+    if (!portalAccountTenant) return;
+
+    const normalizedUsername = portalUsername.trim().toLowerCase();
+    if (!normalizedUsername) {
+      setError("Portal username is required.");
+      return;
+    }
+    if (normalizedUsername.length < 4 || normalizedUsername.length > 100) {
+      setError("Portal username must contain between 4 and 100 characters.");
+      return;
+    }
+
+    try {
+      setIsCreatingPortalAccount(true);
+      setError("");
+      await createTenantAccount({
+        tenantId: portalAccountTenant.tenantId,
+        username: normalizedUsername,
+      });
+
+      const tenantName = portalAccountTenant.name;
+      setPortalAccountTenant(null);
+      setPortalUsername("");
+      setSuccessMessage(
+        `Portal account created for ${tenantName}. The activation email has been sent.`
+      );
+      await loadData();
+    } catch (requestError) {
+      setError(
+        getErrorMessage(requestError, "Unable to create the portal account.")
+      );
+    } finally {
+      setIsCreatingPortalAccount(false);
     }
   };
 
@@ -596,8 +644,8 @@ export default function Tenants() {
 
                   <span
                     className={`rounded-full border px-3 py-1.5 text-[7px] font-bold uppercase tracking-widest ${tenant.tenantStatus === "ACTIVE"
-                        ? "border-emerald-200 bg-emerald-50 text-emerald-700"
-                        : "border-stone-200 bg-stone-100 text-stone-600"
+                      ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                      : "border-stone-200 bg-stone-100 text-stone-600"
                       }`}
                   >
                     {tenant.tenantStatus}
@@ -612,8 +660,25 @@ export default function Tenants() {
                   <p>{tenant.mobileNumber}</p>
                   {tenant.email && <p className="break-all">{tenant.email}</p>}
                 </div>
+                <div className="mt-4">
+                  {!tenant.portalAccountCreated && (
+                    <span className="inline-flex rounded-full border border-stone-300 bg-stone-100 px-3 py-1 text-[7px] font-bold uppercase tracking-widest text-stone-600">
+                      Portal Not Created
+                    </span>
+                  )}
+                  {tenant.portalAccountCreated && !tenant.portalAccountActive && (
+                    <span className="inline-flex rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-[7px] font-bold uppercase tracking-widest text-amber-700">
+                      Activation Pending
+                    </span>
+                  )}
+                  {tenant.portalAccountCreated && tenant.portalAccountActive && (
+                    <span className="inline-flex rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-[7px] font-bold uppercase tracking-widest text-emerald-700">
+                      Portal Active
+                    </span>
+                  )}
+                </div>
 
-                <div className="mt-auto flex gap-3 pt-7">
+                <div className="mt-auto flex flex-wrap gap-3 pt-7">
                   <motion.button
                     type="button"
                     whileHover={{ y: -2 }}
@@ -623,6 +688,19 @@ export default function Tenants() {
                   >
                     Edit
                   </motion.button>
+
+                  {tenant.tenantStatus === "ACTIVE" &&
+                    !tenant.portalAccountCreated && (
+                      <motion.button
+                        type="button"
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.97 }}
+                        onClick={() => openPortalAccountModal(tenant)}
+                        className="w-full rounded-full bg-stone-900 px-4 py-2.5 text-[8px] font-bold uppercase tracking-widest text-white shadow-sm transition-all duration-300 hover:bg-stone-800 hover:shadow-md"
+                      >
+                        Create Portal Account
+                      </motion.button>
+                    )}
 
                   {tenant.tenantStatus === "ACTIVE" && (
                     <motion.button
@@ -827,6 +905,59 @@ export default function Tenants() {
           </motion.section>
         </div>
       )}
+      <AnimatePresence>
+        {portalAccountTenant && (
+          <motion.div
+            className="fixed inset-0 z-[220] flex items-center justify-center bg-stone-950/45 p-4 backdrop-blur-sm"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          >
+            <motion.section
+              initial={{ opacity: 0, y: 18, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 12, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+              className="w-full max-w-lg rounded-[2rem] bg-white p-7 shadow-2xl"
+            >
+              <p className="text-[9px] font-bold uppercase tracking-[0.22em] text-stone-400">Tenant Portal Access</p>
+              <h2 className="mt-2 text-3xl font-black tracking-tighter">Create portal account</h2>
+              <p className="mt-2 text-sm leading-relaxed text-stone-500">An activation link will be sent to the registered Tenant email address.</p>
+
+              <div className="mt-6 rounded-2xl border border-stone-200 bg-stone-50 p-5">
+                <p className="font-black text-stone-900">{portalAccountTenant.name}</p>
+                <p className="mt-1 break-all text-sm text-stone-500">{portalAccountTenant.email}</p>
+                <p className="mt-1 text-xs text-stone-400">Room {portalAccountTenant.roomNumber || "Not assigned"}</p>
+              </div>
+
+              <label className="mt-6 block">
+                <span className="mb-2 block text-[9px] font-bold uppercase tracking-widest text-stone-500">Portal Username</span>
+                <input
+                  type="text"
+                  value={portalUsername}
+                  onChange={(event) => setPortalUsername(event.target.value)}
+                  maxLength={100}
+                  autoComplete="off"
+                  placeholder="Enter portal username"
+                  className={INPUT_CLASS}
+                />
+              </label>
+
+              <div className="mt-5 rounded-2xl bg-stone-100 p-4">
+                <p className="text-xs leading-relaxed text-stone-600">Confirm the registered email with the Tenant before creating the account. The Tenant will create a private password using the activation link.</p>
+              </div>
+
+              <div className="mt-7 flex justify-end gap-3">
+                <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={closePortalAccountModal} disabled={isCreatingPortalAccount} className="rounded-full border border-stone-300 bg-white px-5 py-3 text-[8px] font-bold uppercase tracking-widest text-stone-700 disabled:opacity-50">Cancel</motion.button>
+                <motion.button type="button" whileTap={{ scale: 0.97 }} onClick={handleCreatePortalAccount} disabled={isCreatingPortalAccount} className="rounded-full bg-stone-900 px-5 py-3 text-[8px] font-bold uppercase tracking-widest text-white disabled:opacity-50">
+                  {isCreatingPortalAccount ? "Creating..." : "Create and Send Email"}
+                </motion.button>
+              </div>
+            </motion.section>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
     </main>
   );
 }
