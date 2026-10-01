@@ -19,13 +19,34 @@ export default function PropertyDetails() {
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    if (campus) {
-      document.title = campus.seo.title;
+    if (!campus) {
+      return;
+    }
+
+    document.title = campus.seo.title;
+
+    const description =
+      document.querySelector(
+        'meta[name="description"]'
+      );
+
+    if (description) {
+      description.setAttribute(
+        "content",
+        campus.seo.description
+      );
     }
 
     return () => {
       document.title =
-        "Nandu PG | PG Accommodation in Hyderabad";
+        "Nandu PG Hyderabad | Men's & Women's PG near HITEC City";
+
+      if (description) {
+        description.setAttribute(
+          "content",
+          "Nandu PG offers men's and women's PG accommodation in HITEC City, Madhapur and Rai Durg, Hyderabad."
+        );
+      }
     };
   }, [campus]);
 
@@ -58,6 +79,25 @@ export default function PropertyDetails() {
   const whatsappUrl =
     `https://wa.me/${campus.contact.whatsapp}` +
     `?text=${encodeURIComponent(whatsappMessage)}`;
+
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "LodgingBusiness",
+    name: campus.name,
+
+    description: campus.seo.description,
+
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: campus.location.locality,
+      addressRegion: "Telangana",
+      addressCountry: "IN",
+    },
+
+    telephone: `+91${campus.contact.phone}`,
+
+    url: `${window.location.origin}/pg/${campus.slug}`,
+  };
 
   return (
     <div className="min-h-screen bg-[#F5F5F0] text-stone-900">
@@ -92,6 +132,12 @@ export default function PropertyDetails() {
           </Link>
         </div>
       </header>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      />
 
       <main>
         <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-6 sm:pt-8">
@@ -108,11 +154,10 @@ export default function PropertyDetails() {
 
             <div className="absolute bottom-0 left-0 right-0 p-5 sm:p-10 text-white">
               <span
-                className={`inline-flex rounded-full px-3 py-1 text-[9px] font-bold uppercase tracking-widest ${
-                  isMen
-                    ? "bg-slate-800"
-                    : "bg-rose-800"
-                }`}
+                className={`inline-flex rounded-full px-3 py-1 text-[9px] font-bold uppercase tracking-widest ${isMen
+                  ? "bg-slate-800"
+                  : "bg-rose-800"
+                  }`}
               >
                 {campus.tagline}
               </span>
@@ -274,11 +319,10 @@ export default function PropertyDetails() {
                   href={whatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`flex justify-center rounded-full px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white ${
-                    isMen
-                      ? "bg-slate-800 hover:bg-slate-900"
-                      : "bg-rose-800 hover:bg-rose-900"
-                  }`}
+                  className={`flex justify-center rounded-full px-6 py-3.5 text-xs font-bold uppercase tracking-widest text-white ${isMen
+                    ? "bg-slate-800 hover:bg-slate-900"
+                    : "bg-rose-800 hover:bg-rose-900"
+                    }`}
                 >
                   WhatsApp
                 </a>
