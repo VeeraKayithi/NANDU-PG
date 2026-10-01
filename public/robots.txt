@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://nandu-pg.pages.dev/sitemap.xml
+Sitemap: https://nandu-pg.nandu-pg.workers.dev/sitemap.xml

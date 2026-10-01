@@ -1,40 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<urlset
-  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Homepage -->
   <url>
-    <loc>https://nandu-pg.pages.dev/</loc>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/</loc>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
+  <!-- Men's PG - Ashwamedha -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/ashwamedha-mens-pg-hitec-city</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/ashwamedha-mens-pg-hitec-city</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Men's PG - Indraprastha -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/indraprastha-mens-pg-madhapur</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/indraprastha-mens-pg-madhapur</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Men's PG - Samaveda -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/samaveda-mens-pg-hitec-city</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/samaveda-mens-pg-hitec-city</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Men's PG - Himavana -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/himavana-mens-pg-raidurg</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/himavana-mens-pg-raidurg</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Women's PG - Sindhoor -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/sindhoor-womens-pg-madhapur</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/sindhoor-womens-pg-madhapur</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
 
+  <!-- Women's PG - Skanda -->
   <url>
-    <loc>https://nandu-pg.pages.dev/pg/skanda-womens-pg-raidurg</loc>
-    <priority>0.8</priority>
+    <loc>https://nandu-pg.nandu-pg.workers.dev/pg/skanda-womens-pg-raidurg</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
   </url>
+
 </urlset>
