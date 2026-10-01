@@ -34,7 +34,7 @@ export default function CampusCard({
     setActiveImage(campus.images[0]);
   }, [campus]);
 
-  const whatsappMessage = `Hi! I'm interested in ${campus.name} at ${campus.location.display}. I would like to check room availability.`;
+  const whatsappMessage = `Hi! I'm interested in ${campus.name}. Is a room available?`;
 
   const whatsappUrl = `https://wa.me/${
     campus.contact.whatsapp
@@ -175,6 +175,33 @@ export default function CampusCard({
           </div>
         )}
 
+        {/* AMENITIES */}
+
+        {campus.amenities?.length > 0 && (
+          <div className="mt-4">
+            <h4 className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-2">
+              Amenities
+            </h4>
+
+            <div className="flex flex-wrap gap-2">
+              {campus.amenities.map(
+                (amenity) => (
+                  <span
+                    key={`${campus.id}-amenity-${amenity}`}
+                    className={`px-2.5 py-1 rounded-full border text-[9px] font-semibold ${
+                      isMen
+                        ? "bg-slate-50 border-slate-200 text-slate-600"
+                        : "bg-rose-50 border-rose-100 text-rose-700"
+                    }`}
+                  >
+                    {amenity}
+                  </span>
+                )
+              )}
+            </div>
+          </div>
+        )}
+
         <hr className="my-5 border-stone-100" />
 
         {/* MONTHLY PRICING */}
@@ -195,8 +222,6 @@ export default function CampusCard({
                 </span>
 
                 <div className="flex items-center gap-3">
-                  {/* NON AC */}
-
                   <div className="flex flex-col items-end">
                     <span className="text-[8px] font-bold uppercase tracking-widest text-stone-400">
                       Non-AC
@@ -210,8 +235,6 @@ export default function CampusCard({
                   </div>
 
                   <div className="w-px h-5 bg-stone-200" />
-
-                  {/* AC */}
 
                   <div className="flex flex-col items-end">
                     <span className="text-[8px] font-bold uppercase tracking-widest text-blue-400">
@@ -245,8 +268,6 @@ export default function CampusCard({
             </div>
 
             <div className="flex items-center gap-3">
-              {/* DAILY NON AC */}
-
               <div className="flex flex-col items-end">
                 <span className="text-[8px] font-bold uppercase tracking-widest text-stone-400">
                   Non-AC
@@ -265,8 +286,6 @@ export default function CampusCard({
               </div>
 
               <div className="w-px h-5 bg-stone-200" />
-
-              {/* DAILY AC */}
 
               <div className="flex flex-col items-end">
                 <span className="text-[8px] font-bold uppercase tracking-widest text-blue-400">
@@ -291,8 +310,6 @@ export default function CampusCard({
         {/* ACTION BUTTONS */}
 
         <div className="flex flex-col sm:flex-row gap-3 mt-auto">
-          {/* WHATSAPP */}
-
           <a
             href={whatsappUrl}
             target="_blank"
@@ -305,8 +322,6 @@ export default function CampusCard({
           >
             Check Availability
           </a>
-
-          {/* PHONE CALL */}
 
           {campus.contact.phone && (
             <a
