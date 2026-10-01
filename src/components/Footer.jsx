@@ -1,19 +1,11 @@
 export default function Footer({
-  globalWhatsappNumber,
-  setGenderTab,
+  showCampuses,
 }) {
-  const showCampusSection = (gender) => {
-    setGenderTab(gender);
-
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <footer className="bg-stone-950 text-stone-300 py-16 sm:py-20 px-6 rounded-[2rem] sm:rounded-[3rem] mx-4 sm:mx-8 mb-6 sm:mb-8 shadow-2xl border border-stone-800">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-12 lg:gap-8 mb-16">
+        {/* BRAND */}
+
         <div className="md:col-span-5 flex flex-col items-start">
           <button
             type="button"
@@ -44,12 +36,16 @@ export default function Footer({
             </div>
           </button>
 
-          <p className="text-sm text-stone-400 leading-relaxed max-w-sm mb-8">
-            Redefining premium PG spaces in Hyderabad. We offer strictly
-            separate, highly secure residential campuses with zero compromise
-            on quality and comfort.
+          <p className="text-sm text-stone-400 leading-relaxed max-w-sm">
+            Men's and women's PG accommodation
+            across Hyderabad's major IT
+            corridors, with direct property
+            enquiries and flexible room
+            options.
           </p>
         </div>
+
+        {/* EXPLORE */}
 
         <div className="md:col-span-3 md:col-start-7">
           <h4 className="text-xs font-black uppercase tracking-widest text-white mb-6">
@@ -60,7 +56,9 @@ export default function Footer({
             <li>
               <button
                 type="button"
-                onClick={() => showCampusSection("men")}
+                onClick={() =>
+                  showCampuses("men")
+                }
                 className="text-sm text-stone-400 hover:text-white transition-colors"
               >
                 Men's PG
@@ -70,7 +68,9 @@ export default function Footer({
             <li>
               <button
                 type="button"
-                onClick={() => showCampusSection("women")}
+                onClick={() =>
+                  showCampuses("women")
+                }
                 className="text-sm text-stone-400 hover:text-white transition-colors"
               >
                 Women's PG
@@ -78,55 +78,45 @@ export default function Footer({
             </li>
 
             <li>
-              <a
-                href={`https://wa.me/${globalWhatsappNumber}`}
-                target="_blank"
-                rel="noreferrer"
+              <button
+                type="button"
+                onClick={() =>
+                  showCampuses("men")
+                }
                 className="text-sm text-stone-400 hover:text-white transition-colors"
               >
-                Book a Tour
-              </a>
+                View Locations
+              </button>
             </li>
           </ul>
         </div>
 
+        {/* LOCATION */}
+
         <div className="md:col-span-3">
           <h4 className="text-xs font-black uppercase tracking-widest text-white mb-6">
-            Headquarters
+            Serving Hyderabad
           </h4>
 
-          <ul className="space-y-4">
-            <li className="flex items-start gap-3">
-              <span className="text-lg" aria-hidden="true">
-                📍
-              </span>
+          <p className="text-sm text-stone-400 leading-relaxed">
+            Nandu PG properties are located
+            around major Hyderabad IT
+            corridors including HITEC City,
+            Madhapur and Rai Durg.
+          </p>
 
-              <span className="text-sm text-stone-400 leading-relaxed">
-                Madhapur, HITEC City,
-                <br />
-                Hyderabad, Telangana
-              </span>
-            </li>
-
-            <li className="flex items-center gap-3">
-              <span className="text-lg" aria-hidden="true">
-                📞
-              </span>
-
-              <a
-                href={`tel:+91${globalWhatsappNumber}`}
-                className="text-sm text-stone-400 hover:text-white transition-colors"
-              >
-                +91 {globalWhatsappNumber}
-              </a>
-            </li>
-          </ul>
+          <p className="mt-4 text-xs text-stone-500 leading-relaxed">
+            Select a property above to view
+            its location and contact the
+            respective building directly.
+          </p>
         </div>
       </div>
 
       <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between pt-8 border-t border-stone-800/60 gap-4">
         <p className="text-[11px] font-bold text-stone-500 uppercase tracking-widest">
-          © {new Date().getFullYear()} Nandu PG Accommodation. All rights
+          © {new Date().getFullYear()} Nandu
+          PG Accommodation. All rights
           reserved.
         </p>
       </div>

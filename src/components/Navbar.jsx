@@ -1,20 +1,9 @@
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
 
 export default function Navbar({
   genderTab,
-  setGenderTab,
-  globalWhatsappNumber,
+  showCampuses,
 }) {
-  const showCampusSection = (gender) => {
-    setGenderTab(gender);
-
-    window.scrollTo({
-      top: 600,
-      behavior: "smooth",
-    });
-  };
-
   return (
     <motion.header
       initial={{ y: -100 }}
@@ -25,17 +14,24 @@ export default function Navbar({
       }}
       className="fixed inset-x-0 top-0 z-50 flex flex-col shadow-sm"
     >
+      {/* OFFICIAL NOTICE */}
+
       <div className="flex w-full items-center overflow-hidden border-b border-stone-800 bg-stone-900 py-2 text-amber-500">
         <div className="animate-marquee inline-block cursor-default whitespace-nowrap text-[9px] font-black uppercase tracking-widest sm:text-[10px]">
-          OFFICIAL NOTICE: Beware of fraudulent websites or individuals asking
-          for booking amounts. This is the ONLY official Nandu PG website. We
-          do not accept advance payments through unauthorized third-party
-          portals.
+          OFFICIAL NOTICE: This is the
+          official Nandu PG website. Please
+          contact the respective property
+          directly through the contact
+          options provided on this website.
         </div>
       </div>
 
+      {/* NAVIGATION */}
+
       <div className="border-b border-stone-200/60 bg-[#F5F5F0]/90 px-3 py-3 backdrop-blur-xl sm:px-6 sm:py-4">
         <div className="mx-auto grid max-w-7xl grid-cols-[auto_1fr_auto] items-center gap-3 md:gap-6">
+          {/* LOGO */}
+
           <button
             type="button"
             className="group flex min-w-0 shrink-0 cursor-pointer items-center gap-2 text-left sm:gap-3"
@@ -65,10 +61,14 @@ export default function Navbar({
             </div>
           </button>
 
+          {/* DESKTOP NAVIGATION */}
+
           <nav className="hidden items-center justify-center gap-8 md:flex">
             <button
               type="button"
-              onClick={() => showCampusSection("men")}
+              onClick={() =>
+                showCampuses("men")
+              }
               className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
                 genderTab === "men"
                   ? "border-b-2 border-stone-900 pb-1 text-stone-900"
@@ -80,7 +80,9 @@ export default function Navbar({
 
             <button
               type="button"
-              onClick={() => showCampusSection("women")}
+              onClick={() =>
+                showCampuses("women")
+              }
               className={`text-[10px] font-bold uppercase tracking-widest transition-colors ${
                 genderTab === "women"
                   ? "border-b-2 border-stone-900 pb-1 text-stone-900"
@@ -91,23 +93,18 @@ export default function Navbar({
             </button>
           </nav>
 
-          <div className="col-start-3 flex shrink-0 items-center justify-end gap-2 sm:gap-3">
-            <Link
-              to="/login"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-full border border-stone-300 bg-white px-3 py-2 text-[8px] font-bold uppercase tracking-wider text-stone-800 shadow-sm transition-all hover:border-stone-900 hover:bg-stone-50 active:scale-95 sm:px-5 sm:py-2.5 sm:text-[10px] sm:tracking-widest"
-            >
-              Login
-            </Link>
+          {/* PRIMARY CTA */}
 
-            <a
-              href={`https://wa.me/${globalWhatsappNumber}?text=Hi!%20I%20want%20to%20schedule%20a%20visit.`}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-stone-900 px-3 py-2 text-[8px] font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95 sm:px-6 sm:py-2.5 sm:text-[10px] sm:tracking-widest"
+          <div className="col-start-3 flex shrink-0 items-center justify-end">
+            <button
+              type="button"
+              onClick={() =>
+                showCampuses("men")
+              }
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-full bg-stone-900 px-4 py-2.5 text-[8px] font-bold uppercase tracking-wider text-white shadow-sm transition-all hover:bg-stone-800 active:scale-95 sm:px-6 sm:text-[10px] sm:tracking-widest"
             >
-              <span className="sm:hidden">Visit</span>
-              <span className="hidden sm:inline">Book a Visit</span>
-            </a>
+              View PGs
+            </button>
           </div>
         </div>
       </div>
