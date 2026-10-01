@@ -37,6 +37,7 @@ export default function HeroSection({
           alt="Nandu PG accommodation in Hyderabad"
           className="w-full h-full object-cover"
           fetchPriority="high"
+          decoding="async"
         />
 
         <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/45 to-stone-900/85" />
