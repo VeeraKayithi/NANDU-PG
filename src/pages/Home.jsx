@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation, useSearchParams, } from "react-router-dom";
 import { motion } from "framer-motion";
 
 import Navbar from "../components/Navbar.jsx";
@@ -7,32 +8,62 @@ import CampusCard from "../components/CampusCard.jsx";
 
 import FAQAccordion from "../components/FAQAccordion.jsx";
 import Footer from "../components/Footer.jsx";
-import Lightbox from "../components/Lightbox.jsx";
 
 import { CAMPUS_DATA } from "../data/campuses.js";
 
 export default function Home() {
-  const [genderTab, setGenderTab] = useState("men");
-  const [lightboxImg, setLightboxImg] = useState(null);
+  const [searchParams, setSearchParams] =
+    useSearchParams();
 
-  const currentCampuses = CAMPUS_DATA[genderTab] || [];
+  const location = useLocation();
+
+  const genderFromUrl =
+    searchParams.get("gender") === "women"
+      ? "women"
+      : "men";
+
+  const [genderTab, setGenderTab] =
+    useState(genderFromUrl);
 
   useEffect(() => {
-    document.body.style.overflow = lightboxImg
-      ? "hidden"
-      : "unset";
+    const gender =
+      searchParams.get("gender");
 
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [lightboxImg]);
+    if (
+      gender === "men" ||
+      gender === "women"
+    ) {
+      setGenderTab(gender);
+    }
+  }, [searchParams]);
+
+  const currentCampuses = CAMPUS_DATA[genderTab] || [];
 
   const showCampuses = (gender) => {
     setGenderTab(gender);
 
+    const nextParams =
+      new URLSearchParams(
+        searchParams
+      );
+
+    nextParams.set(
+      "gender",
+      gender
+    );
+
+    setSearchParams(
+      nextParams,
+      {
+        replace: true,
+      }
+    );
+
     setTimeout(() => {
       document
-        .getElementById("pg-locations")
+        .getElementById(
+          "pg-locations"
+        )
         ?.scrollIntoView({
           behavior: "smooth",
           block: "start",
@@ -40,15 +71,31 @@ export default function Home() {
     }, 50);
   };
 
+  useEffect(() => {
+    if (
+      location.hash !==
+      "#pg-locations"
+    ) {
+      return;
+    }
+
+    const timer =
+      setTimeout(() => {
+        document
+          .getElementById(
+            "pg-locations"
+          )
+          ?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          });
+      }, 100);
+
+    return () =>
+      clearTimeout(timer);
+  }, [location.hash]);
   return (
     <div className="min-h-screen bg-[#F7F5EF] text-stone-900 antialiased font-sans selection:bg-[#183B5B] selection:text-white overflow-x-hidden relative">
-      <Lightbox
-        lightboxImg={lightboxImg}
-        closeLightbox={() =>
-          setLightboxImg(null)
-        }
-      />
-
       <Navbar
         genderTab={genderTab}
         showCampuses={showCampuses}
@@ -61,7 +108,11 @@ export default function Home() {
       <section
         id="pg-locations"
         className="scroll-mt-36"
+        aria-labelledby="pg-locations-heading"
       >
+        <h2 id="pg-locations-heading" className="sr-only">
+          Available PGs in Hyderabad
+        </h2>
         <motion.div
           initial={{
             opacity: 0,
@@ -81,10 +132,11 @@ export default function Home() {
           <div className="mx-auto flex w-fit rounded-full border border-[#E7E2D8] bg-white p-1.5 shadow-[0_4px_16px_rgba(24,59,91,0.06)]">
             <button
               type="button"
+              aria-pressed={genderTab === "men"}
               onClick={() =>
-                setGenderTab("men")
+                showCampuses("men")
               }
-              className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "men"
+              className={`min-h-11 rounded-full px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#183B5B] focus-visible:ring-offset-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "men"
                 ? "bg-[#183B5B] text-white shadow-md"
                 : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
                 }`}
@@ -94,10 +146,11 @@ export default function Home() {
 
             <button
               type="button"
+              aria-pressed={genderTab === "women"}
               onClick={() =>
-                setGenderTab("women")
+                showCampuses("women")
               }
-              className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "women"
+              className={`min-h-11 rounded-full px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#183B5B] focus-visible:ring-offset-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "women"
                 ? "bg-[#183B5B] text-white shadow-md"
                 : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
                 }`}
@@ -113,10 +166,6 @@ export default function Home() {
               <CampusCard
                 key={campus.id}
                 campus={campus}
-                gender={genderTab}
-                openLightbox={
-                  setLightboxImg
-                }
               />
             )
           )}

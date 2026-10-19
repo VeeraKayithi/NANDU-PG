@@ -108,7 +108,7 @@ export default function Navbar({
             <p
               className="
             mt-1
-            text-[8px]
+            text-[10px]
             font-bold
             uppercase
             tracking-[0.18em]

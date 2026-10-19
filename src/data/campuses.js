@@ -55,6 +55,29 @@ const DEFAULT_ROOM_OPTIONS = [
   },
 ];
 
+const SAMAVEDA_ROOM_OPTIONS = [
+  {
+    type: "Single Room",
+    nonAcPrice: 29000,
+    acPrice: 31000,
+  },
+  {
+    type: "Two Sharing",
+    nonAcPrice: 16000,
+    acPrice: 18000,
+  },
+  {
+    type: "Three Sharing",
+    nonAcPrice: 12000,
+    acPrice: 14000,
+  },
+  {
+    type: "Four Sharing",
+    nonAcPrice: 10000,
+    acPrice: 12000,
+  },
+];
+
 const DEFAULT_DAILY_PRICING = {
   nonAcPrice: 500,
   acPrice: 800,
@@ -63,10 +86,13 @@ const DEFAULT_DAILY_PRICING = {
 const BASIC_AMENITIES = [
   "Wi-Fi",
   "Food",
-  "Housekeeping",
+  "House keeping",
   "Hot Water",
   "Power Backup",
   "CCTV",
+  "Gym",
+  "Laundry",
+  "Indoor Games"
 ];
 
 export const CAMPUS_DATA = {
@@ -106,13 +132,17 @@ export const CAMPUS_DATA = {
       nearbyPlaces: [
         {
           name: "Raheja Mindspace",
-          travelTime: "~0.8 km",
+          distance: "~0.8 km",
           type: "IT Park",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Raheja+Mindspace+IT+Park+Hyderabad&query_place_id=ChIJUZZhw-CTyzsRD1pFBhTNZZk",
         },
         {
           name: "HITEC City Metro",
-          travelTime: "Under 1 km",
+          distance: "Under 1 km",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=HITEC+City+Metro+Station+Hyderabad&query_place_id=ChIJ98U0bN-TyzsR3N0a5TS0uOM",
         },
       ],
 
@@ -164,13 +194,17 @@ export const CAMPUS_DATA = {
       nearbyPlaces: [
         {
           name: "Yashoda Hospitals HITEC City",
-          travelTime: "~0.7 km",
+          distance: "~0.7 km",
           type: "Hospital",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Yashoda+Hospitals+HITEC+City+Hyderabad&query_place_id=ChIJqVt-932RyzsRoj3v3sUhcqQ",
         },
         {
           name: "HITEC City Metro",
-          travelTime: "~1.2 km",
+          distance: "~1.2 km",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=HITEC+City+Metro+Station+Hyderabad&query_place_id=ChIJ98U0bN-TyzsR3N0a5TS0uOM",
         },
       ],
 
@@ -214,22 +248,28 @@ export const CAMPUS_DATA = {
       nearbyPlaces: [
         {
           name: "Durgam Cheruvu Metro",
-          travelTime: "~0.3 km",
+          distance: "~0.3 km",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Durgam+Cheruvu+Metro+Station+Hyderabad&query_place_id=ChIJtwGgV16RyzsRMKbX7SZ3voA",
         },
         {
           name: "HITEC City Metro",
-          travelTime: "~0.6 km",
+          distance: "~0.6 km",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=HITEC+City+Metro+Station+Hyderabad&query_place_id=ChIJ98U0bN-TyzsR3N0a5TS0uOM",
         },
         {
           name: "Inorbit Mall",
-          travelTime: "~1.1 km",
+          distance: "~1.1 km",
           type: "Shopping",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Inorbit+Mall+Cyberabad+Madhapur+Hyderabad",
         },
       ],
 
-      roomOptions: DEFAULT_ROOM_OPTIONS,
+      roomOptions: SAMAVEDA_ROOM_OPTIONS,
       dailyPricing: DEFAULT_DAILY_PRICING,
       amenities: BASIC_AMENITIES,
 
@@ -274,21 +314,22 @@ export const CAMPUS_DATA = {
       nearbyPlaces: [
         {
           name: "Hyderabad Knowledge City",
-          travelTime: "Short drive",
+          proximity: "Short drive",
           type: "IT Hub",
         },
         {
           name: "Financial District",
-          travelTime: "Short drive",
+          proximity: "Short drive",
           type: "Business District",
         },
         {
           name: "Raidurg Metro",
-          travelTime: "Nearby",
+          proximity: "Nearby",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Raidurg+Metro+Station+Hyderabad&query_place_id=ChIJy7NsEAiTyzsRSDK700cUf1A",
         },
       ],
-
       roomOptions: DEFAULT_ROOM_OPTIONS,
       dailyPricing: DEFAULT_DAILY_PRICING,
       amenities: BASIC_AMENITIES,
@@ -338,19 +379,22 @@ export const CAMPUS_DATA = {
           name: "Durgam Cheruvu Metro",
           travelTime: "5-10 mins",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Durgam+Cheruvu+Metro+Station+Hyderabad&query_place_id=ChIJtwGgV16RyzsRMKbX7SZ3voA",
         },
         {
           name: "Raheja Mindspace",
-          travelTime: "~1.2 km",
+          distance: "~1.2 km",
           type: "IT Park",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Raheja+Mindspace+IT+Park+Hyderabad&query_place_id=ChIJUZZhw-CTyzsRD1pFBhTNZZk",
         },
         {
           name: "Ratnadeep Supermarket",
-          travelTime: "~1 km",
+          distance: "~1 km",
           type: "Supermarket",
         },
       ],
-
       roomOptions: DEFAULT_ROOM_OPTIONS,
       dailyPricing: DEFAULT_DAILY_PRICING,
       amenities: BASIC_AMENITIES,
@@ -398,31 +442,33 @@ export const CAMPUS_DATA = {
       nearbyPlaces: [
         {
           name: "Hyderabad Knowledge City",
-          travelTime: "Short drive",
+          proximity: "Short drive",
           type: "IT Hub",
         },
         {
           name: "Financial District",
-          travelTime: "Short drive",
+          proximity: "Short drive",
           type: "Business District",
         },
         {
           name: "Raidurg Metro",
-          travelTime: "Nearby",
+          proximity: "Nearby",
           type: "Metro",
+          mapUrl:
+            "https://www.google.com/maps/search/?api=1&query=Raidurg+Metro+Station+Hyderabad&query_place_id=ChIJy7NsEAiTyzsRSDK700cUf1A",
         },
       ],
 
-      roomOptions: DEFAULT_ROOM_OPTIONS,
-      dailyPricing: DEFAULT_DAILY_PRICING,
-      amenities: BASIC_AMENITIES,
+    roomOptions: DEFAULT_ROOM_OPTIONS,
+    dailyPricing: DEFAULT_DAILY_PRICING,
+    amenities: BASIC_AMENITIES,
 
-      seo: {
-        title:
-          "Campus Skanda Women's PG in Rai Durg | Nandu PG",
-        description:
-          "Nandu Women's PG in Prashant Hills, Rai Durg, Hyderabad, with convenient access to Knowledge City and the Financial District.",
-      },
+    seo: {
+      title:
+        "Campus Skanda Women's PG in Rai Durg | Nandu PG",
+      description:
+        "Nandu Women's PG in Prashant Hills, Rai Durg, Hyderabad, with convenient access to Knowledge City and the Financial District.",
+    },
     },
   ],
 };

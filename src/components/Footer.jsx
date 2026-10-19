@@ -6,6 +6,7 @@ import {
   Phone,
   Users,
 } from "lucide-react";
+import { FaInstagram } from "react-icons/fa";
 
 export default function Footer({
   showCampuses,
@@ -180,6 +181,18 @@ export default function Footer({
               </span>
             ))}
           </div>
+
+          {/* OFFICIAL INSTAGRAM PROFILE — CURRENTLY @nandumenspg */}
+          <a
+            href="https://www.instagram.com/nandumenspg/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit NANDU's Instagram profile, @nandumenspg (opens in a new tab)"
+            className="mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-xl border border-[#E7E2D8] bg-[#F7F5EF] px-3.5 py-2.5 text-xs font-semibold text-[#183B5B] transition-colors hover:border-[#B33A3A]/30 hover:bg-[#FCECEC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#183B5B]"
+          >
+            <FaInstagram size={18} strokeWidth={1.9} className="shrink-0 text-[#B33A3A]" aria-hidden="true" />
+            <span>Instagram · @nandumenspg</span>
+          </a>
         </div>
 
         {/* =====================
