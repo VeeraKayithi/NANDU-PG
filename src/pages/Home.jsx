@@ -75,7 +75,7 @@ export default function Home() {
           transition={{
             duration: 0.5,
           }}
-          className="max-w-7xl mx-auto px-6 pt-16 mb-12"
+          className="max-w-7xl mx-auto px-6 pt-6 sm:pt-8 mb-8 sm:mb-10"
         >
 
           <div className="mx-auto flex w-fit rounded-full border border-[#E7E2D8] bg-white p-1.5 shadow-[0_4px_16px_rgba(24,59,91,0.06)]">
@@ -85,8 +85,8 @@ export default function Home() {
                 setGenderTab("men")
               }
               className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "men"
-                  ? "bg-[#183B5B] text-white shadow-md"
-                  : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                ? "bg-[#183B5B] text-white shadow-md"
+                : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
                 }`}
             >
               Men's PG
@@ -98,8 +98,8 @@ export default function Home() {
                 setGenderTab("women")
               }
               className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "women"
-                  ? "bg-[#183B5B] text-white shadow-md"
-                  : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                ? "bg-[#183B5B] text-white shadow-md"
+                : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
                 }`}
             >
               Women's PG

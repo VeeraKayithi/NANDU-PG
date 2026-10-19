@@ -46,14 +46,9 @@ const AMENITY_ICONS = {
 };
 
 
-export default function CampusCard({
-  campus,
-}) {
+export default function CampusCard({ campus }) {
   const branchName =
-    campus.name.replace(
-      /^Campus\s+/i,
-      ""
-    );
+    campus.name.replace(/^Campus\s+/i, "");
 
   const whatsappMessage =
     `Hi! I'm interested in ${campus.name}. Is a room available?`;
@@ -65,9 +60,9 @@ export default function CampusCard({
     )}`;
 
 
-  /*
-   * FIND LOWEST MONTHLY PRICE
-   */
+  /* =========================
+     LOWEST MONTHLY PRICE
+  ========================== */
 
   const monthlyPrices =
     campus.roomOptions
@@ -82,10 +77,23 @@ export default function CampusCard({
 
   const startingPrice =
     monthlyPrices.length > 0
-      ? Math.min(
-        ...monthlyPrices
-      )
+      ? Math.min(...monthlyPrices)
       : null;
+
+
+  /* =========================
+     AMENITIES
+  ========================== */
+
+  const visibleAmenities =
+    campus.amenities?.slice(0, 3) || [];
+
+  const remainingAmenities =
+    Math.max(
+      (campus.amenities?.length || 0) -
+        visibleAmenities.length,
+      0
+    );
 
 
   return (
@@ -117,7 +125,7 @@ export default function CampusCard({
           group
           relative
           block
-          h-[220px]
+          h-[185px]
           overflow-hidden
           bg-stone-100
 
@@ -140,12 +148,12 @@ export default function CampusCard({
           "
         />
 
-        {/* SUBTLE IMAGE GRADIENT */}
+        {/* IMAGE OVERLAY */}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
 
 
-        {/* MEN / WOMEN BADGE */}
+        {/* GENDER BADGE */}
 
         <div
           className="
@@ -203,23 +211,27 @@ export default function CampusCard({
           CARD CONTENT
       ========================== */}
 
-      <div className="p-5">
+      <div className="p-4 sm:p-5">
 
-        {/* NAME + MAP */}
+        {/* =========================
+            PROPERTY + DIRECTIONS
+        ========================== */}
 
         <div
           className="
             flex
             items-start
             justify-between
-            gap-4
+            gap-3
           "
         >
           <div className="min-w-0">
 
+            {/* NAME */}
+
             <h3
               className="
-                text-[20px]
+                text-[19px]
                 font-black
                 leading-tight
                 tracking-tight
@@ -237,10 +249,22 @@ export default function CampusCard({
             <div className="mt-1.5 flex items-center gap-1.5">
               <MapPin
                 size={13}
-                className="shrink-0 text-[#B33A3A]"
+                className="
+                  shrink-0
+                  text-[#B33A3A]
+                "
               />
 
-              <p className="truncate text-[11px] font-medium text-stone-500">
+              <p
+                className="
+                  truncate
+                  text-[10px]
+                  font-medium
+                  text-stone-500
+
+                  sm:text-[11px]
+                "
+              >
                 {campus.location.area},{" "}
                 {campus.location.city}
               </p>
@@ -248,7 +272,7 @@ export default function CampusCard({
           </div>
 
 
-          {/* MAP */}
+          {/* DIRECTIONS */}
 
           {campus.mapLink && (
             <a
@@ -259,85 +283,42 @@ export default function CampusCard({
                 flex
                 shrink-0
                 items-center
-                gap-1
+                gap-1.5
                 rounded-full
-                px-2
-                py-1
+                border
+                border-[#F0CACA]
+                bg-[#FCECEC]
+                px-2.5
+                py-1.5
                 text-[8px]
                 font-bold
                 uppercase
-                tracking-[0.14em]
+                tracking-[0.1em]
                 text-[#B33A3A]
-                transition
+                shadow-sm
+                transition-all
 
-                hover:bg-[#FCECEC]
+                hover:bg-[#B33A3A]
+                hover:text-white
+
+                active:scale-95
               "
             >
               <Navigation size={11} />
 
-              Map
+              Directions
             </a>
           )}
         </div>
 
 
         {/* =========================
-            NEARBY PLACES
-        ========================== */}
-
-        {campus.nearbyPlaces?.length >
-          0 && (
-            <div className="mt-3 flex flex-wrap gap-1.5">
-
-              {campus.nearbyPlaces
-                .slice(0, 2)
-                .map(
-                  (place) => (
-                    <span
-                      key={`${campus.id}-${place.name}`}
-                      className="
-                      inline-flex
-                      items-center
-                      gap-1
-                      rounded-lg
-                      bg-[#F7F5EF]
-                      px-2
-                      py-1.5
-                      text-[8px]
-                      font-medium
-                      text-stone-600
-                    "
-                    >
-                      <MapPin
-                        size={9}
-                        className="text-[#B33A3A]"
-                      />
-
-                      {place.travelTime}
-
-                      <span className="text-stone-300">
-                        ·
-                      </span>
-
-                      {place.name}
-                    </span>
-                  )
-                )}
-            </div>
-          )}
-
-
-        {/* DIVIDER */}
-
-        <div className="my-4 h-px bg-[#E7E2D8]" />
-
-
-        {/* =========================
-            STARTING PRICE
+            PRICE
         ========================== */}
 
         <div
           className="
+            mt-3
             flex
             items-end
             justify-between
@@ -345,137 +326,302 @@ export default function CampusCard({
           "
         >
           <div>
-
             <p
               className="
-                text-[8px]
+                text-[7px]
                 font-bold
                 uppercase
                 tracking-[0.14em]
                 text-stone-400
+
+                sm:text-[8px]
               "
             >
-              Starting From
+              Starts at
             </p>
 
             {startingPrice && (
-              <p className="mt-1 text-xl font-black text-[#183B5B]">
-                {formatPrice(
-                  startingPrice
-                )}
+              <div className="mt-1 flex items-end">
 
-                <span className="ml-0.5 text-[10px] font-medium text-stone-400">
-                  /month
+                <p
+                  className="
+                    text-[21px]
+                    font-black
+                    leading-none
+                    text-[#183B5B]
+
+                    sm:text-[23px]
+                  "
+                >
+                  {formatPrice(startingPrice)}
+                </p>
+
+                <span
+                  className="
+                    ml-1
+                    text-[8px]
+                    font-medium
+                    text-stone-400
+
+                    sm:text-[9px]
+                  "
+                >
+                  /month onwards
                 </span>
-              </p>
+              </div>
             )}
           </div>
 
 
-          {/* AC INFORMATION */}
+          {/* AC */}
 
-          <div className="text-right">
-            <span
+          <span
+            className="
+              shrink-0
+              rounded-full
+              bg-[#E8F0F7]
+              px-2.5
+              py-1.5
+              text-[7px]
+              font-bold
+              text-[#183B5B]
+
+              sm:text-[8px]
+            "
+          >
+            AC & Non-AC
+          </span>
+        </div>
+
+
+        {/* =========================
+            NEARBY
+        ========================== */}
+
+        {campus.nearbyPlaces?.length > 0 && (
+          <div className="mt-3">
+
+            <p
               className="
-                inline-flex
-                rounded-full
-                bg-[#E8F0F7]
-                px-2.5
-                py-1
-                text-[8px]
+                mb-1.5
+                text-[7px]
                 font-bold
-                text-[#183B5B]
+                uppercase
+                tracking-[0.14em]
+                text-stone-400
+
+                sm:text-[8px]
               "
             >
-              AC & Non-AC
-            </span>
+              Nearby
+            </p>
+
+
+            <div className="flex flex-wrap gap-1.5">
+
+              {campus.nearbyPlaces
+                .slice(0, 2)
+                .map((place, index) => (
+                  <span
+                    key={`${campus.id}-${place.name}`}
+                    className={`
+                      items-center
+                      gap-1.5
+                      rounded-lg
+                      bg-[#F7F5EF]
+                      px-2
+                      py-1.5
+                      text-[8px]
+                      font-medium
+                      text-stone-600
+
+                      ${
+                        index === 0
+                          ? "inline-flex"
+                          : "hidden sm:inline-flex"
+                      }
+                    `}
+                  >
+                    <MapPin
+                      size={9}
+                      className="
+                        shrink-0
+                        text-[#B33A3A]
+                      "
+                    />
+
+                    <span className="font-semibold">
+                      {place.travelTime}
+                    </span>
+
+                    <span className="text-stone-300">
+                      ·
+                    </span>
+
+                    {place.name}
+                  </span>
+                ))}
+
+
+              {/* MOBILE + NEARBY */}
+
+              {campus.nearbyPlaces.length > 1 && (
+                <span
+                  className="
+                    inline-flex
+                    items-center
+                    rounded-lg
+                    bg-[#F7F5EF]
+                    px-2
+                    py-1.5
+                    text-[8px]
+                    font-bold
+                    text-[#183B5B]
+
+                    sm:hidden
+                  "
+                >
+                  +{campus.nearbyPlaces.length - 1} nearby
+                </span>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
 
         {/* =========================
             AMENITIES
         ========================== */}
 
-        {campus.amenities?.length >
-          0 && (
-            <div className="mt-3 flex flex-wrap gap-1.5">
+        {visibleAmenities.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-1.5">
 
-              {campus.amenities
-                .slice(0, 4)
-                .map(
-                  (amenity) => {
-                    const AmenityIcon =
-                      AMENITY_ICONS[
-                      amenity
-                      ] ||
-                      Sparkles;
+            {visibleAmenities.map(
+              (amenity, index) => {
+                const AmenityIcon =
+                  AMENITY_ICONS[amenity] ||
+                  Sparkles;
 
-                    return (
-                      <span
-                        key={`${campus.id}-${amenity}`}
-                        className="
-                        inline-flex
-                        items-center
-                        gap-1
-                        rounded-full
-                        border
-                        border-[#D9E4EE]
-                        bg-white
-                        px-2.5
-                        py-1.5
-                        text-[8px]
-                        font-medium
-                        text-stone-600
-                      "
-                      >
-                        <AmenityIcon
-                          size={10}
-                          className="text-[#183B5B]"
-                        />
+                return (
+                  <span
+                    key={`${campus.id}-${amenity}`}
+                    className={`
+                      items-center
+                      gap-1
+                      rounded-full
+                      border
+                      border-[#D9E4EE]
+                      bg-white
+                      px-2.5
+                      py-1.5
+                      text-[8px]
+                      font-medium
+                      text-stone-600
 
-                        {amenity}
-                      </span>
-                    );
-                  }
-                )}
-            </div>
-          )}
+                      ${
+                        index < 2
+                          ? "inline-flex"
+                          : "hidden sm:inline-flex"
+                      }
+                    `}
+                  >
+                    <AmenityIcon
+                      size={10}
+                      className="text-[#183B5B]"
+                    />
+
+                    {amenity}
+                  </span>
+                );
+              }
+            )}
+
+
+            {/* MOBILE AMENITY COUNT */}
+
+            {(campus.amenities?.length || 0) > 2 && (
+              <span
+                className="
+                  inline-flex
+                  items-center
+                  rounded-full
+                  bg-[#E8F0F7]
+                  px-2.5
+                  py-1.5
+                  text-[8px]
+                  font-bold
+                  text-[#183B5B]
+
+                  sm:hidden
+                "
+              >
+                +{campus.amenities.length - 2}
+              </span>
+            )}
+
+
+            {/* DESKTOP AMENITY COUNT */}
+
+            {remainingAmenities > 0 && (
+              <span
+                className="
+                  hidden
+                  items-center
+                  rounded-full
+                  bg-[#E8F0F7]
+                  px-2.5
+                  py-1.5
+                  text-[8px]
+                  font-bold
+                  text-[#183B5B]
+
+                  sm:inline-flex
+                "
+              >
+                +{remainingAmenities}
+              </span>
+            )}
+          </div>
+        )}
 
 
         {/* =========================
-            ACTION BUTTONS
+            ACTIONS
         ========================== */}
 
-        <div className="mt-5 space-y-2">
+        <div className="mt-4 space-y-2">
 
           {/* VIEW DETAILS */}
 
           <Link
             to={`/pg/${campus.slug}`}
             className="
-    flex
-    w-full
-    items-center
-    justify-center
-    rounded-full
-    bg-[#183B5B]
-    px-5
-    py-3
-    text-[9px]
-    font-bold
-    uppercase
-    tracking-[0.12em]
-    text-white
-    shadow-sm
-    transition-all
+              flex
+              w-full
+              items-center
+              justify-center
+              rounded-full
+              bg-[#183B5B]
+              px-5
+              py-2.5
+              text-[9px]
+              font-bold
+              uppercase
+              tracking-[0.12em]
+              text-white
+              shadow-sm
+              transition-all
 
-    hover:bg-[#102F4B]
-    active:scale-[0.98]
-  "
+              hover:bg-[#102F4B]
+
+              active:scale-[0.98]
+
+              sm:py-3
+            "
           >
             View Details
           </Link>
+
 
           {/* WHATSAPP + CALL */}
 
@@ -495,7 +641,7 @@ export default function CampusCard({
                 rounded-full
                 bg-[#25D366]
                 px-3
-                py-3
+                py-2.5
                 text-[9px]
                 font-bold
                 uppercase
@@ -505,7 +651,10 @@ export default function CampusCard({
                 transition
 
                 hover:bg-[#1FB85A]
+
                 active:scale-95
+
+                sm:py-3
               "
             >
               <FaWhatsapp size={15} />
@@ -519,25 +668,28 @@ export default function CampusCard({
             <a
               href={`tel:${campus.contact.phone}`}
               className="
-    flex
-    items-center
-    justify-center
-    gap-1.5
-    rounded-full
-    bg-[#B33A3A]
-    px-3
-    py-3
-    text-[9px]
-    font-bold
-    uppercase
-    tracking-[0.1em]
-    text-white
-    shadow-sm
-    transition
+                flex
+                items-center
+                justify-center
+                gap-1.5
+                rounded-full
+                bg-[#B33A3A]
+                px-3
+                py-2.5
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-[0.1em]
+                text-white
+                shadow-sm
+                transition
 
-    hover:bg-[#982F2F]
-    active:scale-95
-  "
+                hover:bg-[#982F2F]
+
+                active:scale-95
+
+                sm:py-3
+              "
             >
               <Phone size={13} />
 

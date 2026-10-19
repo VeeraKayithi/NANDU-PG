@@ -350,7 +350,16 @@ export default function PropertyDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F5EF] pb-24 text-stone-900 lg:pb-0">      {/* =========================
+    <div
+      className="
+    min-h-screen
+    bg-[#F7F5EF]
+    pb-[calc(5.5rem+env(safe-area-inset-bottom))]
+    text-stone-900
+
+    lg:pb-0
+  "
+    >    {/* =========================
           FULL SCREEN IMAGE VIEWER
       ========================== */}
 
@@ -835,60 +844,180 @@ export default function PropertyDetails() {
             </section>
 
             {/* =====================
-                ROOM PRICING
-            ====================== */}
+    ROOM PRICING
+====================== */}
 
             <section className="mt-10 sm:mt-12">
+
+              {/* HEADING */}
+
               <h2 className="flex items-center gap-2 text-xl font-black text-stone-900 sm:text-2xl">
-                <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8F0F7] text-[#183B5B]">
-                  <BedDouble size={18} strokeWidth={2} />
+                <span
+                  className="
+        flex
+        h-9
+        w-9
+        items-center
+        justify-center
+        rounded-xl
+        bg-[#E8F0F7]
+        text-[#183B5B]
+      "
+                >
+                  <BedDouble
+                    size={18}
+                    strokeWidth={2}
+                  />
                 </span>
 
                 Room Pricing
               </h2>
-              <div className="mt-5 overflow-hidden rounded-2xl border border-stone-200 bg-white">
 
-                {campus.roomOptions.map(
-                  (
-                    option
-                  ) => (
-                    <div
-                      key={
-                        option.type
-                      }
-                      className="flex flex-col gap-3 border-b border-stone-100 px-5 py-4 last:border-b-0 sm:flex-row sm:items-center sm:justify-between"
-                    >
-                      <p className="font-bold">
-                        {
-                          option.type
-                        }
-                      </p>
 
-                      <div className="flex gap-6">
+              {/* PRICING CARD */}
 
-                        {/* NON AC */}
+              <div
+                className="
+      mt-5
+      overflow-hidden
+      rounded-[1.5rem]
+      border
+      border-[#E7E2D8]
+      bg-white
+      shadow-[0_8px_24px_rgba(24,59,91,0.06)]
+    "
+              >
 
-                        <div>
-                          <p className="text-[9px] font-bold uppercase tracking-widest text-stone-400">
-                            Non-AC
+                {/* TABLE HEADER */}
+
+                <div
+                  className="
+        grid
+        grid-cols-[1.3fr_0.8fr_0.8fr]
+        items-center
+        bg-[#F8F6F1]
+        px-4
+        py-3
+      "
+                >
+                  <p
+                    className="
+          text-[8px]
+          font-bold
+          uppercase
+          tracking-[0.14em]
+          text-stone-400
+        "
+                  >
+                    Room Type
+                  </p>
+
+                  <p
+                    className="
+          text-center
+          text-[8px]
+          font-bold
+          uppercase
+          tracking-[0.12em]
+          text-stone-400
+        "
+                  >
+                    Non-AC
+                  </p>
+
+                  <p
+                    className="
+          flex
+          items-center
+          justify-center
+          gap-1
+          text-[8px]
+          font-bold
+          uppercase
+          tracking-[0.12em]
+          text-[#2878B5]
+        "
+                  >
+                    <Snowflake size={10} />
+
+                    AC
+                  </p>
+                </div>
+
+
+                {/* PRICING ROWS */}
+
+                <div>
+                  {campus.roomOptions.map(
+                    (option, index) => (
+                      <div
+                        key={option.type}
+                        className={`
+              grid
+              grid-cols-[1.3fr_0.8fr_0.8fr]
+              items-center
+              px-4
+              py-4
+
+              ${index !==
+                            campus.roomOptions.length - 1
+                            ? "border-b border-[#EEEAE2]"
+                            : ""
+                          }
+            `}
+                      >
+
+                        {/* ROOM TYPE */}
+
+                        <div className="min-w-0">
+                          <p
+                            className="
+                  text-[12px]
+                  font-bold
+                  leading-tight
+                  text-stone-800
+
+                  sm:text-sm
+                "
+                          >
+                            {option.type}
                           </p>
+                        </div>
 
-                          <p className="font-black">
+
+                        {/* NON AC PRICE */}
+
+                        <div className="text-center">
+                          <p
+                            className="
+                  text-[12px]
+                  font-black
+                  leading-none
+                  text-stone-900
+
+                  sm:text-sm
+                "
+                          >
                             {formatPrice(
                               option.nonAcPrice
                             )}
                           </p>
                         </div>
 
-                        {/* AC */}
 
-                        <div>
-                          <p className="flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest text-[#2878B5]">
-                            <Snowflake size={11} />
-                            AC
-                          </p>
+                        {/* AC PRICE */}
 
-                          <p className="font-black">
+                        <div className="text-center">
+                          <p
+                            className="
+                  text-[12px]
+                  font-black
+                  leading-none
+                  text-[#183B5B]
+
+                  sm:text-sm
+                "
+                          >
                             {formatPrice(
                               option.acPrice
                             )}
@@ -896,9 +1025,33 @@ export default function PropertyDetails() {
                         </div>
 
                       </div>
-                    </div>
-                  )
-                )}
+                    )
+                  )}
+                </div>
+
+
+                {/* SMALL NOTE */}
+
+                <div
+                  className="
+        border-t
+        border-[#E7E2D8]
+        bg-[#FCFBF8]
+        px-4
+        py-2.5
+      "
+                >
+                  <p
+                    className="
+          text-[8px]
+          font-medium
+          leading-relaxed
+          text-stone-400
+        "
+                  >
+                    Monthly pricing · Room availability may vary
+                  </p>
+                </div>
 
               </div>
             </section>
@@ -1015,22 +1168,22 @@ export default function PropertyDetails() {
       <div
         className="
     fixed
+    inset-x-0
     bottom-0
-    left-0
-    right-0
-    z-40
+    z-[80]
     border-t
     border-[#E7E2D8]
     bg-[#F7F5EF]/95
-    px-3
-    py-3
-    shadow-[0_-8px_25px_rgba(24,59,91,0.10)]
+    px-2.5
+    pt-2.5
+    pb-[calc(0.625rem+env(safe-area-inset-bottom))]
+    shadow-[0_-6px_20px_rgba(24,59,91,0.12)]
     backdrop-blur-xl
 
     lg:hidden
   "
       >
-        <div className="mx-auto grid max-w-md grid-cols-2 gap-2.5">
+        <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
 
           {/* WHATSAPP */}
 
@@ -1040,27 +1193,30 @@ export default function PropertyDetails() {
             rel="noopener noreferrer"
             className="
         flex
+        min-w-0
         items-center
         justify-center
-        gap-2
+        gap-1.5
         rounded-full
         bg-[#25D366]
-        px-4
-        py-3.5
-        text-[10px]
+        px-2
+        py-2.5
+        text-[8px]
         font-bold
         uppercase
-        tracking-wider
+        tracking-[0.06em]
         text-white
         shadow-sm
-        transition
 
         active:scale-95
       "
           >
-            <FaWhatsapp size={17} />
+            <FaWhatsapp
+              size={14}
+              className="shrink-0"
+            />
 
-            WhatsApp
+            <span>WhatsApp</span>
           </a>
 
 
@@ -1070,27 +1226,65 @@ export default function PropertyDetails() {
             href={`tel:${campus.contact.phone}`}
             className="
         flex
+        min-w-0
         items-center
         justify-center
-        gap-2
+        gap-1.5
         rounded-full
         bg-[#183B5B]
-        px-4
-        py-3.5
-        text-[10px]
+        px-2
+        py-2.5
+        text-[8px]
         font-bold
         uppercase
-        tracking-wider
+        tracking-[0.06em]
         text-white
         shadow-sm
-        transition
 
         active:scale-95
       "
           >
-            <Phone size={15} />
+            <Phone
+              size={13}
+              className="shrink-0"
+            />
 
-            Call Now
+            <span>Call</span>
+          </a>
+
+
+          {/* DIRECTIONS */}
+
+          <a
+            href={campus.mapLink}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+        flex
+        min-w-0
+        items-center
+        justify-center
+        gap-1.5
+        rounded-full
+        bg-[#B33A3A]
+        px-2
+        py-2.5
+        text-[8px]
+        font-bold
+        uppercase
+        tracking-[0.05em]
+        text-white
+        shadow-sm
+
+        active:scale-95
+      "
+          >
+            <Navigation
+              size={13}
+              className="shrink-0"
+            />
+
+            <span>Directions</span>
           </a>
 
         </div>

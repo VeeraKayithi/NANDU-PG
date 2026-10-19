@@ -14,7 +14,7 @@ export default function Footer({
     <footer
       className="
         mx-4
-        mb-6
+        mb-[calc(1.5rem+env(safe-area-inset-bottom))]
         overflow-hidden
         rounded-[2rem]
         border
@@ -199,7 +199,7 @@ export default function Footer({
             Explore
           </h4>
 
-          <div className="mt-4 space-y-1.5">
+          <div className="mt-4 grid grid-cols-2 gap-2 md:block md:space-y-1.5">
             {/* MEN */}
 
             <button
@@ -335,6 +335,7 @@ export default function Footer({
               onClick={() =>
                 showCampuses("men")
               }
+              hidden md:grid
               className="
                 group
                 grid
@@ -398,7 +399,7 @@ export default function Footer({
             QUICK INFORMATION
         ====================== */}
 
-        <div className="md:col-span-3">
+        <div className="hidden md:col-span-3 md:block">
           <h4
             className="
               text-[10px]
