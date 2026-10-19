@@ -1,11 +1,17 @@
 import { motion } from "framer-motion";
 
-import mainImg from "../assets/main.jpg";
+import {
+  Building2,
+  MapPin,
+  ShieldCheck,
+} from "lucide-react";
+
+import mainImg from "../assets/optimized/main.webp";
 
 const fadeUpVariant = {
   hidden: {
     opacity: 0,
-    y: 30,
+    y: 24,
   },
 
   visible: {
@@ -19,76 +25,241 @@ const fadeUpVariant = {
   },
 };
 
-export default function HeroSection({
-  showCampuses,
-}) {
+export default function HeroSection() {
   return (
     <motion.section
       initial="hidden"
       animate="visible"
       variants={fadeUpVariant}
-      className="relative min-h-[560px] h-[75vh] flex items-center justify-center px-6 mt-[130px] lg:mt-[140px] rounded-[2rem] sm:rounded-[3rem] overflow-hidden mx-4 sm:mx-8 shadow-2xl border border-stone-200/50"
-    >
-      {/* BACKGROUND */}
+      className="
+        relative
+        mx-4
+        mt-[84px]
+        overflow-hidden
+        rounded-[1.75rem]
+        border
+        border-[#E7E2D8]
+        shadow-[0_18px_50px_rgba(24,59,91,0.12)]
 
-      <div className="absolute inset-0 z-0">
+        sm:mx-8
+        sm:mt-[96px]
+        sm:rounded-[2.5rem]
+      "
+    >
+      {/* =========================
+          HERO IMAGE
+      ========================== */}
+
+      <div
+        className="
+          relative
+          h-[380px]
+
+          sm:h-[440px]
+          lg:h-[500px]
+        "
+      >
         <img
           src={mainImg}
-          alt="Nandu PG accommodation in Hyderabad"
-          className="w-full h-full object-cover"
+          alt="Nandu PG accommodation near Hyderabad IT hubs"
+          className="
+            h-full
+            w-full
+            object-cover
+          "
           fetchPriority="high"
           decoding="async"
         />
 
-        <div className="absolute inset-0 bg-gradient-to-b from-stone-900/60 via-stone-900/45 to-stone-900/85" />
-      </div>
+        {/* DARK OVERLAY */}
 
-      {/* HERO CONTENT */}
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-r
+            from-[#0F2436]/90
+            via-[#183B5B]/65
+            to-black/20
+          "
+        />
 
-      <div className="relative z-10 text-center max-w-4xl mx-auto mt-10">
-        <span className="inline-block px-5 py-2 bg-white/10 backdrop-blur-md border border-white/20 text-white text-[10px] font-bold uppercase tracking-widest rounded-full mb-6">
-          PG Accommodation in Hyderabad
-        </span>
+        {/* BOTTOM DEPTH */}
 
-        <h1 className="text-4xl sm:text-5xl md:text-7xl font-black tracking-tighter leading-tight text-white drop-shadow-md">
-          Comfortable PG Living
-          <br />
+        <div
+          className="
+            absolute
+            inset-0
+            bg-gradient-to-t
+            from-black/45
+            via-transparent
+            to-transparent
+          "
+        />
 
-          <span className="text-stone-300 font-light">
-            Near Hyderabad's IT Hubs.
-          </span>
-        </h1>
+        {/* =========================
+            CONTENT
+        ========================== */}
 
-        <p className="mt-6 text-sm md:text-base text-stone-200 max-w-2xl mx-auto leading-relaxed">
-          Discover separate men's and women's
-          Nandu PG locations with flexible room
-          sharing options, convenient locations
-          and direct property enquiries.
-        </p>
+        <div
+          className="
+            absolute
+            inset-0
+            flex
+            items-end
+            px-5
+            pb-7
 
-        {/* CTA */}
+            sm:px-8
+            sm:pb-10
 
-        <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-          <button
-            type="button"
-            onClick={() =>
-              showCampuses("men")
-            }
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full bg-white text-stone-900 text-[10px] font-black uppercase tracking-widest hover:bg-stone-100 transition-all active:scale-95 shadow-lg"
-          >
-            Explore Men's PG
-          </button>
+            lg:px-12
+            lg:pb-12
+          "
+        >
+          <div className="max-w-3xl">
 
-          <button
-            type="button"
-            onClick={() =>
-              showCampuses("women")
-            }
-            className="w-full sm:w-auto px-7 py-3.5 rounded-full border border-white/40 bg-white/10 backdrop-blur-md text-white text-[10px] font-black uppercase tracking-widest hover:bg-white/20 transition-all active:scale-95"
-          >
-            Explore Women's PG
-          </button>
+            {/* BRAND BADGE */}
+
+            <div
+              className="
+                inline-flex
+                items-center
+                gap-2
+                rounded-full
+                border
+                border-white/20
+                bg-white/10
+                px-3
+                py-1.5
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-[0.14em]
+                text-white
+                shadow-sm
+                backdrop-blur-md
+              "
+            >
+              <Building2
+                size={13}
+                className="text-[#F2A7A7]"
+              />
+
+              Nandu Group of Hostels
+            </div>
+
+            {/* HEADLINE */}
+
+            <h1
+              className="
+                mt-4
+                max-w-2xl
+                text-[34px]
+                font-black
+                leading-[1.03]
+                tracking-tight
+                text-white
+
+                sm:text-5xl
+                lg:text-6xl
+              "
+            >
+              PGs Near Hyderabad's
+              <span className="block text-[#F2B0B0]">
+                Major IT Hubs
+              </span>
+            </h1>
+
+            {/* DESCRIPTION */}
+
+            <p
+              className="
+                mt-4
+                max-w-xl
+                text-[13px]
+                leading-relaxed
+                text-white/80
+
+                sm:text-sm
+                lg:text-base
+              "
+            >
+              Men's and women's PG accommodation
+              across HITEC City, Madhapur and Rai
+              Durg with direct property contact.
+            </p>
+
+            {/* =====================
+                LOCATION CHIPS
+            ====================== */}
+
+            <div
+              className="
+                mt-6
+                flex
+                flex-wrap
+                gap-2
+              "
+            >
+              {[
+                "HITEC City",
+                "Madhapur",
+                "Rai Durg",
+              ].map((location) => (
+                <span
+                  key={location}
+                  className="
+                    inline-flex
+                    items-center
+                    gap-1.5
+                    rounded-full
+                    border
+                    border-white/15
+                    bg-white/10
+                    px-3
+                    py-1.5
+                    text-[9px]
+                    font-semibold
+                    text-white/90
+                    backdrop-blur-md
+                  "
+                >
+                  <MapPin
+                    size={11}
+                    className="text-[#F2A7A7]"
+                  />
+
+                  {location}
+                </span>
+              ))}
+            </div>
+
+            {/* SMALL TRUST LINE */}
+
+            <div
+              className="
+                mt-5
+                flex
+                items-center
+                gap-2
+                text-[9px]
+                font-semibold
+                uppercase
+                tracking-[0.12em]
+                text-white/60
+              "
+            >
+              <ShieldCheck
+                size={13}
+                className="text-[#F2A7A7]"
+              />
+
+              Direct contact with each property
+            </div>
+          </div>
         </div>
+        
       </div>
     </motion.section>
   );

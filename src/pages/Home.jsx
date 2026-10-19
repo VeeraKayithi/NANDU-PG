@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import Navbar from "../components/Navbar.jsx";
 import HeroSection from "../components/HeroSection.jsx";
 import CampusCard from "../components/CampusCard.jsx";
-import Testimonials from "../components/Testimonials.jsx";
+
 import FAQAccordion from "../components/FAQAccordion.jsx";
 import Footer from "../components/Footer.jsx";
 import Lightbox from "../components/Lightbox.jsx";
@@ -41,7 +41,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F5F5F0] text-stone-900 antialiased font-sans selection:bg-stone-300 selection:text-stone-900 overflow-x-hidden relative">
+    <div className="min-h-screen bg-[#F7F5EF] text-stone-900 antialiased font-sans selection:bg-[#183B5B] selection:text-white overflow-x-hidden relative">
       <Lightbox
         lightboxImg={lightboxImg}
         closeLightbox={() =>
@@ -77,32 +77,17 @@ export default function Home() {
           }}
           className="max-w-7xl mx-auto px-6 pt-16 mb-12"
         >
-          <div className="text-center mb-8">
-            <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-stone-400">
-              Find Your Stay
-            </span>
 
-            <h2 className="mt-2 text-3xl sm:text-4xl font-black tracking-tight text-stone-900">
-              Explore Nandu PG Locations
-            </h2>
-
-            <p className="mt-3 text-sm text-stone-500 max-w-xl mx-auto">
-              Choose men's or women's PG accommodation and contact the
-              respective property directly for availability.
-            </p>
-          </div>
-
-          <div className="flex justify-center p-1.5 bg-white border border-stone-200/80 rounded-full w-fit mx-auto shadow-sm">
+          <div className="mx-auto flex w-fit rounded-full border border-[#E7E2D8] bg-white p-1.5 shadow-[0_4px_16px_rgba(24,59,91,0.06)]">
             <button
               type="button"
               onClick={() =>
                 setGenderTab("men")
               }
-              className={`px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-full transition-all duration-300 ${
-                genderTab === "men"
-                  ? "bg-slate-800 text-white shadow-md"
-                  : "bg-transparent text-stone-400 hover:text-stone-800"
-              }`}
+              className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "men"
+                  ? "bg-[#183B5B] text-white shadow-md"
+                  : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                }`}
             >
               Men's PG
             </button>
@@ -112,18 +97,17 @@ export default function Home() {
               onClick={() =>
                 setGenderTab("women")
               }
-              className={`px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-widest rounded-full transition-all duration-300 ${
-                genderTab === "women"
-                  ? "bg-rose-800 text-white shadow-md"
-                  : "bg-transparent text-stone-400 hover:text-stone-800"
-              }`}
+              className={`rounded-full px-6 py-3 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "women"
+                  ? "bg-[#183B5B] text-white shadow-md"
+                  : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                }`}
             >
               Women's PG
             </button>
           </div>
         </motion.div>
 
-        <section className="max-w-6xl mx-auto px-4 sm:px-6 pb-24 space-y-10">
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pb-20 grid gap-5 md:grid-cols-2">
           {currentCampuses.map(
             (campus) => (
               <CampusCard
@@ -139,7 +123,7 @@ export default function Home() {
         </section>
       </section>
 
-      <Testimonials />
+
 
       <FAQAccordion />
 

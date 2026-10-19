@@ -1,28 +1,36 @@
-import ashwa1 from "../assets/ashwamedha-1.jpg";
-import ashwa2 from "../assets/ashwamedha-2.jpg";
-import ashwa3 from "../assets/ashwamedha-3.jpg";
-import ashwa4 from "../assets/ashwamedha-4.jpg";
-import ashwa5 from "../assets/ashwamedha-5.jpg";
-import ashwa6 from "../assets/ashwamedha-6.jpg";
+import ashwa1 from "../assets/optimized/ashwamedha-1.webp";
+import ashwa2 from "../assets/optimized/ashwamedha-2.webp";
+import ashwa3 from "../assets/optimized/ashwamedha-3.webp";
+import ashwa4 from "../assets/optimized/ashwamedha-4.webp";
+import ashwa5 from "../assets/optimized/ashwamedha-5.webp";
+import ashwa6 from "../assets/optimized/ashwamedha-6.webp";
 
-import himavana1 from "../assets/trinetra-1.jpg";
-import himavana2 from "../assets/trinetra-2.jpg";
-import himavana3 from "../assets/trinetra-3.jpg";
-import himavana4 from "../assets/trinetra-4.jpg";
+import himavana1 from "../assets/optimized/trinetra-1.webp";
+import himavana2 from "../assets/optimized/trinetra-2.webp";
+import himavana3 from "../assets/optimized/trinetra-3.webp";
+import himavana4 from "../assets/optimized/trinetra-4.webp";
 
-import sindhoor1 from "../assets/sindhoor-1.jpg";
-import sindhoor2 from "../assets/sindhoor-2.jpg";
-import sindhoor3 from "../assets/sindhoor-3.jpg";
-import sindhoor4 from "../assets/sindhoor-4.jpg";
+import sindhoor1 from "../assets/optimized/sindhoor-1.webp";
+import sindhoor2 from "../assets/optimized/sindhoor-2.webp";
+import sindhoor3 from "../assets/optimized/sindhoor-3.webp";
+import sindhoor4 from "../assets/optimized/sindhoor-4.webp";
 
-import skanda1 from "../assets/skanda-1.jpg";
-import skanda2 from "../assets/skanda-2.jpg";
-import skanda3 from "../assets/skanda-3.jpg";
-import skanda4 from "../assets/skanda-4.jpg";
-import skanda5 from "../assets/skanda-5.jpg";
-import skanda6 from "../assets/skanda-6.jpg";
+import skanda1 from "../assets/optimized/skanda-1.webp";
+import skanda2 from "../assets/optimized/skanda-2.webp";
+import skanda3 from "../assets/optimized/skanda-3.webp";
+import skanda4 from "../assets/optimized/skanda-4.webp";
+import skanda5 from "../assets/optimized/skanda-5.webp";
+import skanda6 from "../assets/optimized/skanda-6.webp";
 
-import fallbackPropertyImage from "../assets/main.jpg";
+import indraprastha1 from "../assets/optimized/IND_1.webp";
+import indraprastha2 from "../assets/optimized/IND_2.webp";
+import indraprastha3 from "../assets/optimized/IND_3.webp";
+import indraprastha4 from "../assets/optimized/IND_4.webp";
+import indraprastha5 from "../assets/optimized/IND_5.webp";
+import indraprastha6 from "../assets/optimized/IND_6.webp";
+import indraprastha7 from "../assets/optimized/IND_7.webp";
+
+import fallbackPropertyImage from "../assets/optimized/main.webp";
 
 const DEFAULT_ROOM_OPTIONS = [
   {
@@ -143,7 +151,15 @@ export const CAMPUS_DATA = {
       mapLink:
         "https://maps.app.goo.gl/oXco6QaqDXRs4dKB8?g_st=ic",
 
-      images: [fallbackPropertyImage],
+      images: [
+        indraprastha1,
+        indraprastha2,
+        indraprastha3,
+        indraprastha4,
+        indraprastha5,
+        indraprastha6,
+        indraprastha7,
+      ],
 
       nearbyPlaces: [
         {

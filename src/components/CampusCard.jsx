@@ -1,13 +1,27 @@
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 
+import {
+  Camera,
+  Droplets,
+  MapPin,
+  Navigation,
+  Phone,
+  Sparkles,
+  Utensils,
+  Wifi,
+  Zap,
+} from "lucide-react";
+
+import { FaWhatsapp } from "react-icons/fa";
+
 import { formatPrice } from "../utils/formatPrice";
+
 
 const fadeUpVariant = {
   hidden: {
     opacity: 0,
-    y: 30,
+    y: 24,
   },
 
   visible: {
@@ -15,31 +29,64 @@ const fadeUpVariant = {
     y: 0,
 
     transition: {
-      duration: 0.6,
+      duration: 0.5,
       ease: [0.22, 1, 0.36, 1],
     },
   },
 };
 
+
+const AMENITY_ICONS = {
+  "Wi-Fi": Wifi,
+  Food: Utensils,
+  Housekeeping: Sparkles,
+  "Hot Water": Droplets,
+  "Power Backup": Zap,
+  CCTV: Camera,
+};
+
+
 export default function CampusCard({
   campus,
-  gender,
-  openLightbox,
 }) {
-  const [activeImage, setActiveImage] =
-    useState(campus.images[0]);
+  const branchName =
+    campus.name.replace(
+      /^Campus\s+/i,
+      ""
+    );
 
-  const isMen = gender === "men";
+  const whatsappMessage =
+    `Hi! I'm interested in ${campus.name}. Is a room available?`;
 
-  useEffect(() => {
-    setActiveImage(campus.images[0]);
-  }, [campus]);
+  const whatsappUrl =
+    `https://wa.me/${campus.contact.whatsapp}` +
+    `?text=${encodeURIComponent(
+      whatsappMessage
+    )}`;
 
-  const whatsappMessage = `Hi! I'm interested in ${campus.name}. Is a room available?`;
 
-  const whatsappUrl = `https://wa.me/${
-    campus.contact.whatsapp
-  }?text=${encodeURIComponent(whatsappMessage)}`;
+  /*
+   * FIND LOWEST MONTHLY PRICE
+   */
+
+  const monthlyPrices =
+    campus.roomOptions
+      .flatMap((room) => [
+        room.nonAcPrice,
+        room.acPrice,
+      ])
+      .filter(
+        (price) =>
+          typeof price === "number"
+      );
+
+  const startingPrice =
+    monthlyPrices.length > 0
+      ? Math.min(
+        ...monthlyPrices
+      )
+      : null;
+
 
   return (
     <motion.article
@@ -48,300 +95,454 @@ export default function CampusCard({
       whileInView="visible"
       viewport={{
         once: true,
-        margin: "-50px",
+        margin: "-40px",
       }}
-      className="flex flex-col lg:flex-row gap-5 lg:gap-10 bg-white p-4 sm:p-8 rounded-[2rem] shadow-[0_15px_35px_-15px_rgba(0,0,0,0.05)] border border-stone-200/60"
+      className="
+        overflow-hidden
+        rounded-[1.6rem]
+        border
+        border-[#E7E2D8]
+        bg-white
+        shadow-[0_10px_30px_rgba(24,59,91,0.08)]
+      "
     >
-      {/* IMAGE SECTION */}
 
-      <div className="w-full lg:w-1/2 flex flex-col gap-3">
-        <button
-          type="button"
-          className="w-full h-[230px] sm:h-[340px] bg-stone-100 rounded-[1.25rem] overflow-hidden relative cursor-zoom-in group text-left"
-          onClick={() =>
-            openLightbox(activeImage)
-          }
-          aria-label={`Expand ${campus.name} image`}
+      {/* =========================
+          PROPERTY IMAGE
+      ========================== */}
+
+      <Link
+        to={`/pg/${campus.slug}`}
+        className="
+          group
+          relative
+          block
+          h-[220px]
+          overflow-hidden
+          bg-stone-100
+
+          sm:h-[260px]
+        "
+      >
+        <img
+          src={campus.images[0]}
+          alt={`${campus.name} - ${campus.location.display}`}
+          loading="lazy"
+          decoding="async"
+          className="
+            h-full
+            w-full
+            object-cover
+            transition-transform
+            duration-700
+
+            group-hover:scale-105
+          "
+        />
+
+        {/* SUBTLE IMAGE GRADIENT */}
+
+        <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10" />
+
+
+        {/* MEN / WOMEN BADGE */}
+
+        <div
+          className="
+            absolute
+            left-3
+            top-3
+            rounded-full
+            bg-[#183B5B]
+            px-3
+            py-1.5
+            text-[8px]
+            font-bold
+            uppercase
+            tracking-[0.14em]
+            text-white
+            shadow-sm
+          "
         >
-          <img
-            src={activeImage}
-            alt={`${campus.name} - ${campus.location.display}`}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            loading="lazy"
-            decoding="async"
-          />
-
-          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
-            <span className="opacity-0 group-hover:opacity-100 bg-white/90 backdrop-blur-sm text-stone-900 px-3 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest transition-opacity shadow-lg">
-              Expand Image
-            </span>
-          </div>
-        </button>
-
-        {/* IMAGE THUMBNAILS */}
-
-        <div className="flex gap-2.5 overflow-x-auto pb-1 scrollbar-hide snap-x">
-          {campus.images.map(
-            (image, index) => (
-              <button
-                type="button"
-                key={`${campus.id}-${index}`}
-                onClick={() =>
-                  setActiveImage(image)
-                }
-                aria-label={`View ${
-                  campus.name
-                } image ${index + 1}`}
-                className={`relative h-16 w-20 sm:h-20 sm:w-28 shrink-0 snap-start rounded-xl overflow-hidden transition-all duration-300 ${
-                  activeImage === image
-                    ? isMen
-                      ? "ring-2 ring-slate-800 ring-offset-2 opacity-100"
-                      : "ring-2 ring-rose-800 ring-offset-2 opacity-100"
-                    : "opacity-50 hover:opacity-100"
-                }`}
-              >
-                <img
-                  src={image}
-                  alt={`${campus.name} ${
-                    index + 1
-                  }`}
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </button>
-            )
-          )}
+          {campus.gender === "men"
+            ? "Men's PG"
+            : "Women's PG"}
         </div>
-      </div>
 
-      {/* CONTENT SECTION */}
 
-      <div className="w-full lg:w-1/2 flex flex-col justify-center">
-        {/* TAG + MAP */}
+        {/* PHOTO COUNT */}
 
-        <div className="flex items-center justify-between gap-2">
-          <span
-            className={`inline-block px-3 py-1 text-[9px] font-bold uppercase tracking-widest rounded-full ${
-              isMen
-                ? "bg-slate-100 text-slate-700"
-                : "bg-rose-50 text-rose-700"
-            }`}
+        {campus.images.length > 1 && (
+          <div
+            className="
+              absolute
+              bottom-3
+              right-3
+              flex
+              items-center
+              gap-1.5
+              rounded-full
+              bg-black/55
+              px-2.5
+              py-1.5
+              text-[8px]
+              font-semibold
+              text-white
+              backdrop-blur-md
+            "
           >
-            {campus.tagline}
-          </span>
+            <Camera size={11} />
+
+            {campus.images.length}
+          </div>
+        )}
+      </Link>
+
+
+      {/* =========================
+          CARD CONTENT
+      ========================== */}
+
+      <div className="p-5">
+
+        {/* NAME + MAP */}
+
+        <div
+          className="
+            flex
+            items-start
+            justify-between
+            gap-4
+          "
+        >
+          <div className="min-w-0">
+
+            <h3
+              className="
+                text-[20px]
+                font-black
+                leading-tight
+                tracking-tight
+                text-[#183B5B]
+
+                sm:text-2xl
+              "
+            >
+              {branchName}
+            </h3>
+
+
+            {/* LOCATION */}
+
+            <div className="mt-1.5 flex items-center gap-1.5">
+              <MapPin
+                size={13}
+                className="shrink-0 text-[#B33A3A]"
+              />
+
+              <p className="truncate text-[11px] font-medium text-stone-500">
+                {campus.location.area},{" "}
+                {campus.location.city}
+              </p>
+            </div>
+          </div>
+
+
+          {/* MAP */}
 
           {campus.mapLink && (
             <a
               href={campus.mapLink}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-widest transition-colors px-2 py-1 rounded-full ${
-                isMen
-                  ? "text-slate-500 hover:bg-slate-50"
-                  : "text-rose-500 hover:bg-rose-50"
-              }`}
+              className="
+                flex
+                shrink-0
+                items-center
+                gap-1
+                rounded-full
+                px-2
+                py-1
+                text-[8px]
+                font-bold
+                uppercase
+                tracking-[0.14em]
+                text-[#B33A3A]
+                transition
+
+                hover:bg-[#FCECEC]
+              "
             >
-              Get Directions
+              <Navigation size={11} />
+
+              Map
             </a>
           )}
         </div>
 
-        {/* PROPERTY NAME */}
 
-        <h3 className="text-2xl sm:text-4xl font-black text-stone-900 mt-3 tracking-tighter leading-none">
-          {campus.name}
-        </h3>
-
-        {/* LOCATION */}
-
-        <p className="text-xs text-stone-500 font-medium mt-2">
-          {campus.location.display}
-        </p>
-
-        {/* NEARBY PLACES */}
+        {/* =========================
+            NEARBY PLACES
+        ========================== */}
 
         {campus.nearbyPlaces?.length >
           0 && (
-          <div className="mt-3 flex flex-wrap gap-1.5">
-            {campus.nearbyPlaces.map(
-              (place) => (
-                <span
-                  key={`${campus.id}-${place.name}`}
-                  className="px-2.5 py-1 bg-stone-50 border border-stone-200 text-stone-600 text-[9px] font-bold rounded-md shadow-sm"
-                >
-                  {place.travelTime} to{" "}
-                  {place.name}
+            <div className="mt-3 flex flex-wrap gap-1.5">
+
+              {campus.nearbyPlaces
+                .slice(0, 2)
+                .map(
+                  (place) => (
+                    <span
+                      key={`${campus.id}-${place.name}`}
+                      className="
+                      inline-flex
+                      items-center
+                      gap-1
+                      rounded-lg
+                      bg-[#F7F5EF]
+                      px-2
+                      py-1.5
+                      text-[8px]
+                      font-medium
+                      text-stone-600
+                    "
+                    >
+                      <MapPin
+                        size={9}
+                        className="text-[#B33A3A]"
+                      />
+
+                      {place.travelTime}
+
+                      <span className="text-stone-300">
+                        ·
+                      </span>
+
+                      {place.name}
+                    </span>
+                  )
+                )}
+            </div>
+          )}
+
+
+        {/* DIVIDER */}
+
+        <div className="my-4 h-px bg-[#E7E2D8]" />
+
+
+        {/* =========================
+            STARTING PRICE
+        ========================== */}
+
+        <div
+          className="
+            flex
+            items-end
+            justify-between
+            gap-3
+          "
+        >
+          <div>
+
+            <p
+              className="
+                text-[8px]
+                font-bold
+                uppercase
+                tracking-[0.14em]
+                text-stone-400
+              "
+            >
+              Starting From
+            </p>
+
+            {startingPrice && (
+              <p className="mt-1 text-xl font-black text-[#183B5B]">
+                {formatPrice(
+                  startingPrice
+                )}
+
+                <span className="ml-0.5 text-[10px] font-medium text-stone-400">
+                  /month
                 </span>
-              )
+              </p>
             )}
           </div>
-        )}
 
-        {/* AMENITIES */}
 
-        {campus.amenities?.length > 0 && (
-          <div className="mt-4">
-            <h4 className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-2">
-              Amenities
-            </h4>
+          {/* AC INFORMATION */}
 
-            <div className="flex flex-wrap gap-2">
-              {campus.amenities.map(
-                (amenity) => (
-                  <span
-                    key={`${campus.id}-amenity-${amenity}`}
-                    className={`px-2.5 py-1 rounded-full border text-[9px] font-semibold ${
-                      isMen
-                        ? "bg-slate-50 border-slate-200 text-slate-600"
-                        : "bg-rose-50 border-rose-100 text-rose-700"
-                    }`}
-                  >
-                    {amenity}
-                  </span>
-                )
-              )}
-            </div>
+          <div className="text-right">
+            <span
+              className="
+                inline-flex
+                rounded-full
+                bg-[#E8F0F7]
+                px-2.5
+                py-1
+                text-[8px]
+                font-bold
+                text-[#183B5B]
+              "
+            >
+              AC & Non-AC
+            </span>
           </div>
-        )}
-
-        <hr className="my-5 border-stone-100" />
-
-        {/* MONTHLY PRICING */}
-
-        <h4 className="text-[9px] font-bold uppercase tracking-widest text-stone-400 mb-3">
-          Monthly Room Pricing
-        </h4>
-
-        <div className="space-y-2 mb-4">
-          {campus.roomOptions.map(
-            (option) => (
-              <div
-                key={`${campus.id}-${option.type}`}
-                className="flex justify-between items-center border-b border-stone-50 pb-2 gap-2 group"
-              >
-                <span className="text-xs font-semibold text-stone-600">
-                  {option.type}
-                </span>
-
-                <div className="flex items-center gap-3">
-                  <div className="flex flex-col items-end">
-                    <span className="text-[8px] font-bold uppercase tracking-widest text-stone-400">
-                      Non-AC
-                    </span>
-
-                    <span className="text-sm font-black text-stone-700 leading-none">
-                      {formatPrice(
-                        option.nonAcPrice
-                      )}
-                    </span>
-                  </div>
-
-                  <div className="w-px h-5 bg-stone-200" />
-
-                  <div className="flex flex-col items-end">
-                    <span className="text-[8px] font-bold uppercase tracking-widest text-blue-400">
-                      AC
-                    </span>
-
-                    <span className="text-sm font-black text-stone-900 leading-none">
-                      {formatPrice(
-                        option.acPrice
-                      )}
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )
-          )}
         </div>
 
-        {/* DAILY STAY */}
 
-        {campus.dailyPricing && (
-          <div className="flex justify-between items-center bg-stone-50 py-2.5 px-4 rounded-lg border border-stone-100 mb-5">
-            <div>
-              <span className="block text-[9px] font-bold uppercase tracking-widest text-emerald-600 mb-0.5">
-                Flexible Stay
-              </span>
+        {/* =========================
+            AMENITIES
+        ========================== */}
 
-              <span className="text-xs font-semibold text-stone-700">
-                Daily Basis
-              </span>
+        {campus.amenities?.length >
+          0 && (
+            <div className="mt-3 flex flex-wrap gap-1.5">
+
+              {campus.amenities
+                .slice(0, 4)
+                .map(
+                  (amenity) => {
+                    const AmenityIcon =
+                      AMENITY_ICONS[
+                      amenity
+                      ] ||
+                      Sparkles;
+
+                    return (
+                      <span
+                        key={`${campus.id}-${amenity}`}
+                        className="
+                        inline-flex
+                        items-center
+                        gap-1
+                        rounded-full
+                        border
+                        border-[#D9E4EE]
+                        bg-white
+                        px-2.5
+                        py-1.5
+                        text-[8px]
+                        font-medium
+                        text-stone-600
+                      "
+                      >
+                        <AmenityIcon
+                          size={10}
+                          className="text-[#183B5B]"
+                        />
+
+                        {amenity}
+                      </span>
+                    );
+                  }
+                )}
             </div>
+          )}
 
-            <div className="flex items-center gap-3">
-              <div className="flex flex-col items-end">
-                <span className="text-[8px] font-bold uppercase tracking-widest text-stone-400">
-                  Non-AC
-                </span>
 
-                <span className="text-sm font-black text-stone-700 leading-none">
-                  {formatPrice(
-                    campus.dailyPricing
-                      .nonAcPrice
-                  )}
+        {/* =========================
+            ACTION BUTTONS
+        ========================== */}
 
-                  <span className="text-[9px] font-normal text-stone-500">
-                    /day
-                  </span>
-                </span>
-              </div>
+        <div className="mt-5 space-y-2">
 
-              <div className="w-px h-5 bg-stone-200" />
+          {/* VIEW DETAILS */}
 
-              <div className="flex flex-col items-end">
-                <span className="text-[8px] font-bold uppercase tracking-widest text-blue-400">
-                  AC
-                </span>
-
-                <span className="text-sm font-black text-stone-900 leading-none">
-                  {formatPrice(
-                    campus.dailyPricing
-                      .acPrice
-                  )}
-
-                  <span className="text-[9px] font-normal text-stone-500">
-                    /day
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ACTION BUTTONS */}
-
-        <div className="mt-auto space-y-3">
           <Link
             to={`/pg/${campus.slug}`}
-            className="flex w-full justify-center rounded-full border border-stone-300 px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-stone-700 transition-all hover:bg-stone-50 active:scale-95"
+            className="
+    flex
+    w-full
+    items-center
+    justify-center
+    rounded-full
+    bg-[#183B5B]
+    px-5
+    py-3
+    text-[9px]
+    font-bold
+    uppercase
+    tracking-[0.12em]
+    text-white
+    shadow-sm
+    transition-all
+
+    hover:bg-[#102F4B]
+    active:scale-[0.98]
+  "
           >
             View Details
           </Link>
 
-          <div className="flex flex-col sm:flex-row gap-3">
+          {/* WHATSAPP + CALL */}
+
+          <div className="grid grid-cols-2 gap-2">
+
+            {/* WHATSAPP */}
+
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className={`inline-flex flex-1 px-6 py-3 text-white text-[10px] font-bold uppercase tracking-widest rounded-full transition-all justify-center items-center active:scale-95 shadow-sm ${
-                isMen
-                  ? "bg-slate-800 hover:bg-slate-900"
-                  : "bg-rose-800 hover:bg-rose-900"
-              }`}
+              className="
+                flex
+                items-center
+                justify-center
+                gap-2
+                rounded-full
+                bg-[#25D366]
+                px-3
+                py-3
+                text-[9px]
+                font-bold
+                uppercase
+                tracking-[0.1em]
+                text-white
+                shadow-sm
+                transition
+
+                hover:bg-[#1FB85A]
+                active:scale-95
+              "
             >
-              Check Availability
+              <FaWhatsapp size={15} />
+
+              WhatsApp
             </a>
 
-            {campus.contact.phone && (
-              <a
-                href={`tel:${campus.contact.phone}`}
-                className="inline-flex px-6 py-3 border border-stone-300 text-stone-700 text-[10px] font-bold uppercase tracking-widest rounded-full justify-center items-center hover:bg-stone-50 transition-all active:scale-95"
-              >
-                Call Now
-              </a>
-            )}
+
+            {/* CALL */}
+
+            <a
+              href={`tel:${campus.contact.phone}`}
+              className="
+    flex
+    items-center
+    justify-center
+    gap-1.5
+    rounded-full
+    bg-[#B33A3A]
+    px-3
+    py-3
+    text-[9px]
+    font-bold
+    uppercase
+    tracking-[0.1em]
+    text-white
+    shadow-sm
+    transition
+
+    hover:bg-[#982F2F]
+    active:scale-95
+  "
+            >
+              <Phone size={13} />
+
+              Call
+            </a>
           </div>
         </div>
       </div>
