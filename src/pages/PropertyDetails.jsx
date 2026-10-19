@@ -16,6 +16,9 @@ import {
   Images,
   MapPin,
   Navigation,
+  Moon,
+  Sun,
+  Grid2X2Check,
   Phone,
   ShoppingBag,
   Snowflake,
@@ -32,6 +35,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { CAMPUS_DATA } from "../data/campuses";
 import { formatPrice } from "../utils/formatPrice";
 import Footer from "../components/Footer";
+import { useTheme } from "../hooks/useTheme.js";
 
 const AMENITY_ICONS = {
   "Wi-Fi": Wifi,
@@ -72,6 +76,7 @@ const getNearbyPlaceIcon = (type = "") => {
 export default function PropertyDetails() {
   const { slug } = useParams();
   const navigate = useNavigate();
+  const { theme, toggleTheme } = useTheme();
 
   const allCampuses = [...CAMPUS_DATA.men, ...CAMPUS_DATA.women];
   const campus = allCampuses.find((property) => property.slug === slug);
@@ -239,11 +244,11 @@ export default function PropertyDetails() {
 
   if (!campus) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#F5F5F0] px-6 text-center">
-        <h1 className="text-4xl font-black text-stone-900">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[var(--pg-bg)] px-6 text-center text-[var(--pg-text)]">
+        <h1 className="text-4xl font-black text-[var(--pg-heading)]">
           Property Not Found
         </h1>
-        <p className="mt-3 text-stone-500">
+        <p className="mt-3 text-[var(--pg-text-muted)]">
           The PG property you're looking for could not be found.
         </p>
         <Link
@@ -305,7 +310,7 @@ export default function PropertyDetails() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F7F5EF] pb-[calc(5.5rem+env(safe-area-inset-bottom))] text-stone-900 lg:pb-0">
+    <div className="min-h-screen bg-[var(--pg-bg)] pb-[calc(5.5rem+env(safe-area-inset-bottom))] text-[var(--pg-text)] lg:pb-0">
       {/* FULL SCREEN IMAGE VIEWER */}
       <AnimatePresence>
         {galleryOpen && (
@@ -404,10 +409,10 @@ export default function PropertyDetails() {
       </AnimatePresence>
 
       {/* PROPERTY HEADER */}
-      <header className="sticky top-0 z-50 border-b border-[#E7E2D8] bg-[#F7F5EF]/95 shadow-[0_4px_16px_rgba(24,59,91,0.08)] backdrop-blur-xl">
-        <div className="mx-auto flex h-[82px] max-w-7xl items-center justify-between px-4 sm:h-[92px] sm:px-6">
-          <Link to={`/?gender=${campus.gender}#pg-locations`} className="flex min-w-0 items-center gap-3">
-            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-white p-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.12)] ring-1 ring-stone-200 sm:h-16 sm:w-16">
+      <header className="sticky top-0 z-50 border-b border-[var(--pg-border)] bg-[var(--pg-bg)] shadow-[0_4px_16px_rgba(24,59,91,0.08)] backdrop-blur-xl">
+        <div className="mx-auto flex h-[82px] max-w-7xl items-center justify-between gap-2 px-3 sm:h-[92px] sm:px-6">
+          <Link to={`/?gender=${campus.gender}#pg-locations`} className="flex min-w-0 items-center gap-2 sm:gap-3">
+            <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white p-1.5 shadow-[0_4px_12px_rgba(0,0,0,0.12)] ring-1 ring-stone-200 sm:h-16 sm:w-16">
               <img
                 src="/nandu_group_of_hostels_logo.svg"
                 alt="NANDU Group of Hostels"
@@ -416,7 +421,7 @@ export default function PropertyDetails() {
             </div>
 
             <div className="min-w-0">
-              <p className="truncate text-sm font-black uppercase leading-tight tracking-tight text-[#183B5B] sm:text-lg">
+              <p className="truncate text-sm font-black uppercase leading-tight tracking-tight text-[var(--pg-heading)] sm:text-lg">
                 {branchName}
               </p>
 
@@ -426,15 +431,33 @@ export default function PropertyDetails() {
             </div>
           </Link>
 
-          <Link
-            to={`/?gender=${campus.gender}#pg-locations`}
-            className="flex min-h-11 shrink-0 items-center justify-center rounded-full border border-[#183B5B]/20 bg-white px-4 text-[10px] font-bold uppercase tracking-widest text-[#183B5B] shadow-sm transition-all hover:bg-[#183B5B] hover:text-white active:scale-95 sm:px-5"
-          >
-            <span className="flex items-center gap-1.5">
-              <ArrowLeft size={14} />
-              All PGs
-            </span>
-          </Link>
+          <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
+            <Link
+              to={`/?gender=${campus.gender}#pg-locations`}
+              aria-label="View all PGs"
+              className="flex min-h-11 shrink-0 items-center justify-center rounded-full border border-[var(--pg-border)] bg-[var(--pg-surface)] px-2.5 text-[10px] font-bold uppercase tracking-widest text-[var(--pg-heading)] shadow-sm transition-all hover:bg-[#183B5B] hover:text-white active:scale-95 sm:px-5"
+            >
+              <span className="flex items-center gap-1.5">
+                <ArrowLeft size={14} aria-hidden="true" />
+                <span className="hidden min-[360px]:inline">All PGs</span>
+              </span>
+            </Link>
+
+            <button
+              type="button"
+              onClick={toggleTheme}
+              aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+              aria-pressed={theme === "dark"}
+              title={theme === "dark" ? "Light mode" : "Dark mode"}
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[var(--pg-surface)] text-[var(--pg-heading)] shadow-sm transition hover:bg-[var(--pg-surface-soft)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8CB8E0]"
+            >
+              {theme === "dark" ? (
+                <Sun size={19} strokeWidth={2} aria-hidden="true" />
+              ) : (
+                <Moon size={19} strokeWidth={2} aria-hidden="true" />
+              )}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -486,7 +509,7 @@ export default function PropertyDetails() {
             {/* PROPERTY PHOTOS */}
             {campus.images.length > 1 && (
               <section className="order-2 mt-10 sm:mt-12 lg:order-1 lg:mt-0">
-                <h2 className="flex items-center gap-2 text-xl font-black text-stone-900 sm:text-2xl">
+                <h2 className="flex items-center gap-2 text-xl font-black text-[var(--pg-heading)] sm:text-2xl">
                   <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8F0F7] text-[#183B5B]">
                     <Images size={18} strokeWidth={2} />
                   </span>
@@ -523,9 +546,9 @@ export default function PropertyDetails() {
 
             {/* AMENITIES */}
             <section className="order-3 mt-10 sm:mt-12 lg:order-2">
-              <h2 className="flex items-center gap-2 text-xl font-black text-stone-900 sm:text-2xl">
+              <h2 className="flex items-center gap-2 text-xl font-black text-[var(--pg-heading)] sm:text-2xl">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FCECEC] text-[#B33A3A]">
-                  <Sparkles size={18} strokeWidth={2} />
+                  <Grid2X2Check size={18} strokeWidth={2} />
                 </span>
                 Amenities
               </h2>
@@ -537,12 +560,12 @@ export default function PropertyDetails() {
                   return (
                     <div
                       key={amenity}
-                      className="flex items-center gap-3 rounded-xl border border-[#E7E2D8] bg-white px-3 py-3 shadow-sm transition hover:border-[#183B5B]/20"
+                      className="flex items-center gap-3 rounded-xl border border-[var(--pg-border)] bg-[var(--pg-surface)] px-3 py-3 shadow-sm transition hover:brightness-[1.04]"
                     >
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#E8F0F7] text-[#183B5B]">
                         <AmenityIcon size={17} strokeWidth={2} />
                       </div>
-                      <span className="text-xs font-semibold text-stone-700 sm:text-sm">
+                      <span className="text-xs font-semibold text-[var(--pg-text)] sm:text-sm">
                         {amenity}
                       </span>
                     </div>
@@ -553,7 +576,7 @@ export default function PropertyDetails() {
 
             {/* NEARBY PLACES */}
             <section className="order-4 mt-10 sm:mt-12 lg:order-3">
-              <h2 className="flex items-center gap-2 text-xl font-black text-stone-900 sm:text-2xl">
+              <h2 className="flex items-center gap-2 text-xl font-black text-[var(--pg-heading)] sm:text-2xl">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#FCECEC] text-[#B33A3A]">
                   <MapPin size={18} strokeWidth={2} />
                 </span>
@@ -577,11 +600,11 @@ export default function PropertyDetails() {
                         </div>
 
                         <div className="min-w-0">
-                          <p className="truncate text-sm font-bold text-stone-800">
+                          <p className="truncate text-sm font-bold text-[var(--pg-text)]">
                             {place.name}
                           </p>
 
-                          <p className="mt-0.5 text-[11px] font-medium text-stone-500">
+                          <p className="mt-0.5 text-[11px] font-medium text-[var(--pg-text-muted)]">
                             {place.type}
                           </p>
                         </div>
@@ -589,7 +612,7 @@ export default function PropertyDetails() {
 
                       <div className="flex shrink-0 items-center gap-2">
                         {proximityLabel && (
-                          <span className="rounded-full bg-[#F7F5EF] px-2.5 py-1 text-[10px] font-bold text-[#183B5B]">
+                          <span className="rounded-full bg-[var(--pg-surface-soft)] px-2.5 py-1 text-[10px] font-bold text-[var(--pg-heading)]">
                             {proximityLabel}
                           </span>
                         )}
@@ -614,12 +637,12 @@ export default function PropertyDetails() {
                         className="
             flex min-h-14 items-center justify-between gap-4
             rounded-xl
-            border border-stone-200
-            bg-white
+            border border-[var(--pg-border)]
+            bg-[var(--pg-surface)]
             px-4 py-3.5
             shadow-sm
             transition-all
-            hover:border-[#183B5B]/30
+            hover:brightness-[1.04]
             hover:shadow-md
             active:scale-[0.99]
           "
@@ -632,7 +655,7 @@ export default function PropertyDetails() {
                   return (
                     <div
                       key={place.name}
-                      className="flex min-h-14 items-center justify-between gap-4 rounded-xl border border-stone-200 bg-white px-4 py-3.5 shadow-sm"
+                      className="flex min-h-14 items-center justify-between gap-4 rounded-xl border border-[var(--pg-border)] bg-[var(--pg-surface)] px-4 py-3.5 shadow-sm"
                     >
                       {content}
                     </div>
@@ -643,15 +666,15 @@ export default function PropertyDetails() {
 
             {/* ROOM PRICING */}
             <section className="order-1 lg:order-4 lg:mt-12">
-              <h2 className="flex items-center gap-2 text-xl font-black text-stone-900 sm:text-2xl">
+              <h2 className="flex items-center gap-2 text-xl font-black text-[var(--pg-heading)] sm:text-2xl">
                 <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#E8F0F7] text-[#183B5B]">
                   <BedDouble size={18} strokeWidth={2} />
                 </span>
                 Room Pricing
               </h2>
 
-              <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[#E7E2D8] bg-white shadow-[0_8px_24px_rgba(24,59,91,0.06)]">
-                <div className="grid grid-cols-[1.3fr_0.8fr_0.8fr] items-center bg-[#F8F6F1] px-4 py-3">
+              <div className="mt-5 overflow-hidden rounded-[1.5rem] border border-[var(--pg-border)] bg-[var(--pg-surface)] shadow-[0_8px_24px_rgba(24,59,91,0.06)]">
+                <div className="grid grid-cols-[1.3fr_0.8fr_0.8fr] items-center bg-[var(--pg-surface-soft)] px-4 py-3">
                   <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-stone-400">
                     Room Type
                   </p>
@@ -669,24 +692,24 @@ export default function PropertyDetails() {
                     <div
                       key={option.type}
                       className={`grid grid-cols-[1.3fr_0.8fr_0.8fr] items-center px-4 py-4 ${index !== campus.roomOptions.length - 1
-                        ? "border-b border-[#EEEAE2]"
+                        ? "border-b border-[var(--pg-border)]"
                         : ""
                         }`}
                     >
                       <div className="min-w-0">
-                        <p className="text-[12px] font-bold leading-tight text-stone-800 sm:text-sm">
+                        <p className="text-[12px] font-bold leading-tight text-[var(--pg-text)] sm:text-sm">
                           {option.type}
                         </p>
                       </div>
 
                       <div className="text-center">
-                        <p className="text-[12px] font-black leading-none text-stone-900 sm:text-sm">
+                        <p className="text-[12px] font-black leading-none text-[var(--pg-text)] sm:text-sm">
                           {formatPrice(option.nonAcPrice)}
                         </p>
                       </div>
 
                       <div className="text-center">
-                        <p className="text-[12px] font-black leading-none text-[#183B5B] sm:text-sm">
+                        <p className="text-[12px] font-black leading-none text-[var(--pg-heading)] sm:text-sm">
                           {formatPrice(option.acPrice)}
                         </p>
                       </div>
@@ -694,8 +717,8 @@ export default function PropertyDetails() {
                   ))}
                 </div>
 
-                <div className="border-t border-[#E7E2D8] bg-[#FCFBF8] px-4 py-2.5">
-                  <p className="text-[10px] font-medium leading-relaxed text-stone-400">
+                <div className="border-t border-[var(--pg-border)] bg-[var(--pg-surface-soft)] px-4 py-2.5">
+                  <p className="text-[10px] font-medium leading-relaxed text-[var(--pg-text-muted)]">
                     Monthly pricing · Room availability may vary
                   </p>
                 </div>
@@ -705,12 +728,12 @@ export default function PropertyDetails() {
 
           {/* CONTACT CARD */}
           <aside>
-            <div className="rounded-[2rem] border border-stone-200 bg-white p-6 shadow-sm lg:sticky lg:top-28">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-stone-400">
+            <div className="rounded-[2rem] border border-[var(--pg-border)] bg-[var(--pg-surface)] p-6 shadow-sm lg:sticky lg:top-28">
+              <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--pg-text-muted)]">
                 Interested in this property?
               </p>
               <h2 className="mt-2 text-2xl font-black">Check Availability</h2>
-              <p className="mt-2 text-sm text-stone-500">
+              <p className="mt-2 text-sm text-[var(--pg-text-muted)]">
                 Contact this Nandu PG property directly.
               </p>
 
@@ -748,11 +771,11 @@ export default function PropertyDetails() {
                 </a>
               </div>
 
-              <div className="mt-6 border-t border-stone-100 pt-5">
-                <p className="text-xs font-bold text-stone-800">
+              <div className="mt-6 border-t border-[var(--pg-border)] pt-5">
+                <p className="text-xs font-bold text-[var(--pg-text)]">
                   {campus.location.area}
                 </p>
-                <p className="mt-1 text-xs leading-relaxed text-stone-500">
+                <p className="mt-1 text-xs leading-relaxed text-[var(--pg-text-muted)]">
                   {campus.location.display}
                 </p>
               </div>
@@ -769,7 +792,7 @@ export default function PropertyDetails() {
       />
 
       {/* MOBILE CONTACT BAR - PRESERVED LAYOUT */}
-      <div className="fixed inset-x-0 bottom-0 z-[80] border-t border-[#E7E2D8] bg-[#F7F5EF]/95 px-2.5 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(24,59,91,0.12)] backdrop-blur-xl lg:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-[80] border-t border-[var(--pg-border)] bg-[var(--pg-bg)] px-2.5 pt-2.5 pb-[calc(0.625rem+env(safe-area-inset-bottom))] shadow-[0_-6px_20px_rgba(24,59,91,0.12)] backdrop-blur-xl lg:hidden">
         <div className="mx-auto grid max-w-md grid-cols-3 gap-2">
           <a
             href={whatsappUrl}

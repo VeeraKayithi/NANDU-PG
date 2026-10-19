@@ -69,7 +69,7 @@ export default function CampusCard({ campus }) {
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px" }}
-      className="overflow-hidden rounded-[1.6rem] border border-[#E7E2D8] bg-white shadow-[0_10px_30px_rgba(24,59,91,0.08)]"
+      className="overflow-hidden rounded-[1.6rem] border border-[var(--pg-border)] bg-[var(--pg-surface)] shadow-[0_10px_30px_rgba(24,59,91,0.08)]"
     >
       {/* PROPERTY IMAGE */}
       <Link
@@ -103,13 +103,13 @@ export default function CampusCard({ campus }) {
         {/* PROPERTY + DIRECTIONS */}
         <div className="flex items-start justify-between gap-3">
           <div className="min-w-0">
-            <h3 className="text-[19px] font-black leading-tight tracking-tight text-[#183B5B] sm:text-2xl">
+            <h3 className="text-[19px] font-black leading-tight tracking-tight text-[var(--pg-heading)] sm:text-2xl">
               {branchName}
             </h3>
 
             <div className="mt-1.5 flex items-center gap-1.5">
               <MapPin size={13} className="shrink-0 text-[#B33A3A]" />
-              <p className="truncate text-[11px] font-medium text-stone-500">
+              <p className="truncate text-[11px] font-medium text-[var(--pg-text-muted)]">
                 {campus.location.area}, {campus.location.city}
               </p>
             </div>
@@ -131,23 +131,23 @@ export default function CampusCard({ campus }) {
         {/* PRICE */}
         <div className="mt-3 flex items-end justify-between gap-3">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-stone-400">
+            <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--pg-text-muted)]">
               Starts at
             </p>
 
             {startingPrice && (
               <div className="mt-1 flex items-end">
-                <p className="text-[21px] font-black leading-none text-[#183B5B] sm:text-[23px]">
+                <p className="text-[21px] font-black leading-none text-[var(--pg-heading)] sm:text-[23px]">
                   {formatPrice(startingPrice)}
                 </p>
-                <span className="ml-1 text-[10px] font-medium text-stone-400">
+                <span className="ml-1 text-[10px] font-medium text-[var(--pg-text-muted)]">
                   /month onwards
                 </span>
               </div>
             )}
           </div>
 
-          <span className="shrink-0 rounded-full bg-[#E8F0F7] px-2.5 py-1.5 text-[10px] font-bold text-[#183B5B]">
+          <span className="shrink-0 rounded-full bg-[var(--pg-surface-soft)] px-2.5 py-1.5 text-[10px] font-bold text-[var(--pg-heading)]">
             AC & Non-AC
           </span>
         </div>
@@ -158,7 +158,7 @@ export default function CampusCard({ campus }) {
 
         {campus.nearbyPlaces?.length > 0 && (
           <div className="mt-3">
-            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-stone-400">
+            <p className="mb-1.5 text-[10px] font-bold uppercase tracking-[0.12em] text-[var(--pg-text-muted)]">
               Nearby
             </p>
 
@@ -180,12 +180,12 @@ export default function CampusCard({ campus }) {
                 max-w-full
                 min-w-0
                 rounded-lg
-                bg-[#F7F5EF]
+                bg-[var(--pg-surface-soft)]
                 px-2
                 py-1.5
                 text-[10px]
                 font-medium
-                text-stone-600
+                text-[var(--pg-text-muted)]
                 ${index === 0
                           ? "inline-flex"
                           : "hidden sm:inline-flex"
@@ -203,7 +203,7 @@ export default function CampusCard({ campus }) {
                             {nearbyLabel}
                           </span>
 
-                          <span className="text-stone-300">
+                          <span className="text-[var(--pg-border)]">
                             ·
                           </span>
                         </>
@@ -217,7 +217,7 @@ export default function CampusCard({ campus }) {
                 })}
 
               {campus.nearbyPlaces.length > 1 && (
-                <span className="inline-flex items-center rounded-lg bg-[#F7F5EF] px-2 py-1.5 text-[10px] font-bold text-[#183B5B] sm:hidden">
+                <span className="inline-flex items-center rounded-lg bg-[var(--pg-surface-soft)] px-2 py-1.5 text-[10px] font-bold text-[var(--pg-heading)] sm:hidden">
                   +{campus.nearbyPlaces.length - 1} nearby
                 </span>
               )}
@@ -237,7 +237,7 @@ export default function CampusCard({ campus }) {
         font-bold
         uppercase
         tracking-[0.12em]
-        text-stone-400
+        text-[var(--pg-text-muted)]
       "
             >
               Amenities
@@ -257,20 +257,20 @@ export default function CampusCard({ campus }) {
               gap-1.5
               rounded-full
               border
-              border-[#D9E4EE]
-              bg-white
+              border-[var(--pg-border)]
+              bg-[var(--pg-surface)]
               px-2.5
               py-1.5
               text-[10px]
               font-medium
               leading-none
-              text-stone-600
+              text-[var(--pg-text-muted)]
             "
                   >
                     <AmenityIcon
                       size={11}
                       strokeWidth={2}
-                      className="shrink-0 text-[#183B5B]"
+                      className="shrink-0 text-[var(--pg-heading)]"
                     />
 
                     {amenity}
@@ -294,13 +294,13 @@ export default function CampusCard({ campus }) {
     rounded-full
     border
     border-[#183B5B]/25
-    bg-[#E8F0F7]
+    bg-[var(--pg-surface-soft)]
     px-5
     text-[11px]
     font-bold
     uppercase
     tracking-[0.10em]
-    text-[#183B5B]
+    text-[var(--pg-heading)]
     shadow-sm
     transition-all
 

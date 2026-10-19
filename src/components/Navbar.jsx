@@ -1,9 +1,13 @@
 import { motion } from "framer-motion";
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "../hooks/useTheme.js";
 
 export default function Navbar({
   genderTab,
   showCampuses,
 }) {
+  const { theme, toggleTheme } = useTheme();
+
   return (
     <motion.header
       initial={{ y: -80 }}
@@ -18,8 +22,8 @@ export default function Navbar({
     top-0
     z-50
     border-b
-    border-[#E7E2D8]
-    bg-[#F7F5EF]/95
+    border-[var(--pg-border)]
+    bg-[var(--pg-bg)]/95
     shadow-[0_4px_16px_rgba(24,59,91,0.08)]
     backdrop-blur-xl
   "
@@ -97,7 +101,7 @@ export default function Navbar({
             uppercase
             leading-none
             tracking-[-0.02em]
-            text-[#183B5B]
+            text-[var(--pg-heading)]
 
             sm:text-sm
           "
@@ -122,8 +126,9 @@ export default function Navbar({
           </div>
         </button>
 
-        {/* DESKTOP NAV */}
+        {/* DESKTOP NAV + ALWAYS-VISIBLE THEME TOGGLE */}
 
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
         <nav className="hidden items-center gap-2 md:flex">
           <button
             type="button"
@@ -169,6 +174,17 @@ export default function Navbar({
             Women's PG
           </button>
         </nav>
+        <button
+          type="button"
+          onClick={toggleTheme}
+          aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+          aria-pressed={theme === "dark"}
+          title={theme === "dark" ? "Light mode" : "Dark mode"}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border border-[var(--pg-border)] bg-[var(--pg-surface)] text-[var(--pg-heading)] shadow-sm transition hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#B33A3A]"
+        >
+          {theme === "dark" ? <Sun size={19} strokeWidth={2} /> : <Moon size={19} strokeWidth={2} />}
+        </button>
+        </div>
       </div>
     </motion.header>
   );

@@ -95,7 +95,7 @@ export default function Home() {
       clearTimeout(timer);
   }, [location.hash]);
   return (
-    <div className="min-h-screen bg-[#F7F5EF] text-stone-900 antialiased font-sans selection:bg-[#183B5B] selection:text-white overflow-x-hidden relative">
+    <div className="min-h-screen bg-[var(--pg-bg)] text-[var(--pg-text)] antialiased font-sans selection:bg-[#183B5B] selection:text-white overflow-x-hidden relative">
       <Navbar
         genderTab={genderTab}
         showCampuses={showCampuses}
@@ -129,7 +129,7 @@ export default function Home() {
           className="max-w-7xl mx-auto px-6 pt-6 sm:pt-8 mb-8 sm:mb-10"
         >
 
-          <div className="mx-auto flex w-fit rounded-full border border-[#E7E2D8] bg-white p-1.5 shadow-[0_4px_16px_rgba(24,59,91,0.06)]">
+          <div className="mx-auto flex w-fit rounded-full border border-[var(--pg-border)] bg-[var(--pg-surface)] p-1.5 shadow-[0_4px_16px_rgba(24,59,91,0.06)]">
             <button
               type="button"
               aria-pressed={genderTab === "men"}
@@ -138,7 +138,7 @@ export default function Home() {
               }
               className={`min-h-11 rounded-full px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#183B5B] focus-visible:ring-offset-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "men"
                 ? "bg-[#183B5B] text-white shadow-md"
-                : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                : "text-[var(--pg-text-muted)] hover:bg-[var(--pg-surface-soft)] hover:text-[var(--pg-heading)]"
                 }`}
             >
               Men's PG
@@ -152,7 +152,7 @@ export default function Home() {
               }
               className={`min-h-11 rounded-full px-6 py-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#183B5B] focus-visible:ring-offset-2 text-[10px] font-bold uppercase tracking-widest transition-all duration-300 sm:px-8 ${genderTab === "women"
                 ? "bg-[#183B5B] text-white shadow-md"
-                : "text-stone-500 hover:bg-[#E8F0F7] hover:text-[#183B5B]"
+                : "text-[var(--pg-text-muted)] hover:bg-[var(--pg-surface-soft)] hover:text-[var(--pg-heading)]"
                 }`}
             >
               Women's PG

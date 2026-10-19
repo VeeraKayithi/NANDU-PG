@@ -1,17 +1,90 @@
+
 @import "tailwindcss";
 
-/* Smooth scrolling when users click navbar links */
+/* =====================================
+   NANDU - GLOBAL STYLES
+===================================== */
+
 html {
   scroll-behavior: smooth;
 }
 
-/* Optional: Clean up scrollbars for a premium look on mobile */
+/* Mobile scrollbar */
 @media (max-width: 768px) {
   ::-webkit-scrollbar {
     width: 4px;
   }
+
   ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 10px;
   }
+}
+
+/* =====================================
+   LIGHT THEME - DEFAULT
+===================================== */
+
+:root {
+  --pg-bg: #F7F5EF;
+  --pg-surface: #FFFFFF;
+  --pg-surface-soft: #E8F0F7;
+  --pg-text: #1C1917;
+  --pg-text-muted: #78716C;
+  --pg-border: #E7E2D8;
+  --pg-heading: #183B5B;
+
+  color-scheme: light;
+}
+
+/* =====================================
+   DARK THEME
+===================================== */
+
+:root[data-theme="dark"] {
+  --pg-bg: #101B29;
+  --pg-surface: #1C2C3D;
+  --pg-surface-soft: #293F55;
+  --pg-text: #F5F2EA;
+  --pg-text-muted: #B0BDCA;
+  --pg-border: transparent;
+  --pg-heading: #F5F2EA;
+
+  color-scheme: dark;
+}
+
+/* =====================================
+   BORDERLESS DESKTOP DARK MODE
+===================================== */
+
+@media (min-width: 769px) {
+  :root[data-theme="dark"] .border,
+  :root[data-theme="dark"] .border-t,
+  :root[data-theme="dark"] .border-b,
+  :root[data-theme="dark"] .border-l,
+  :root[data-theme="dark"] .border-r,
+  :root[data-theme="dark"] .border-x,
+  :root[data-theme="dark"] .border-y {
+    border-color: transparent !important;
+  }
+
+  /* Remove decorative rings */
+  :root[data-theme="dark"] .ring-1,
+  :root[data-theme="dark"] .ring-2 {
+    --tw-ring-color: transparent !important;
+  }
+}
+
+/* =====================================
+   ACCESSIBILITY - ALL SCREEN SIZES
+===================================== */
+
+:root[data-theme="dark"] :focus-visible {
+  outline: 2px solid #8CB8E0 !important;
+  outline-offset: 3px;
+}
+
+/* Remove homepage hero outline in dark mode */
+:root[data-theme="dark"] .nandu-hero {
+  border-color: transparent !important;
 }

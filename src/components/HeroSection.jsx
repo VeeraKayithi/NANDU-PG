@@ -32,6 +32,7 @@ export default function HeroSection() {
       animate="visible"
       variants={fadeUpVariant}
       className="
+        nandu-hero
         relative
         mx-4
         mt-[84px]

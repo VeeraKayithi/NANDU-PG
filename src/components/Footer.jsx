@@ -19,8 +19,8 @@ export default function Footer({
         overflow-hidden
         rounded-[2rem]
         border
-        border-[#E7E2D8]
-        bg-white
+        border-[var(--pg-border)]
+        bg-[var(--pg-surface)]
         shadow-[0_16px_45px_rgba(24,59,91,0.08)]
 
         sm:mx-8
@@ -107,7 +107,7 @@ export default function Footer({
                   uppercase
                   leading-tight
                   tracking-tight
-                  text-[#183B5B]
+                  text-[var(--pg-heading)]
 
                   sm:text-xl
                 "
@@ -138,7 +138,7 @@ export default function Footer({
               max-w-md
               text-sm
               leading-relaxed
-              text-stone-500
+              text-[var(--pg-text-muted)]
             "
           >
             Comfortable men's and women's PG
@@ -163,13 +163,13 @@ export default function Footer({
                   gap-1.5
                   rounded-full
                   border
-                  border-[#E7E2D8]
-                  bg-[#F7F5EF]
+                  border-[var(--pg-border)]
+                  bg-[var(--pg-bg)]
                   px-3
                   py-1.5
                   text-[9px]
                   font-semibold
-                  text-stone-600
+                  text-[var(--pg-text-muted)]
                 "
               >
                 <MapPin
@@ -188,9 +188,9 @@ export default function Footer({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Visit NANDU's Instagram profile, @nandumenspg (opens in a new tab)"
-            className="mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-xl border border-[#E7E2D8] bg-[#F7F5EF] px-3.5 py-2.5 text-xs font-semibold text-[#183B5B] transition-colors hover:border-[#B33A3A]/30 hover:bg-[#FCECEC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#183B5B]"
+            className="mt-5 inline-flex min-h-11 items-center gap-2.5 rounded-xl border border-[var(--pg-border)] bg-[var(--pg-bg)] px-3.5 py-2.5 text-xs font-semibold text-[var(--pg-heading)] transition-colors hover:border-[#B33A3A]/30 hover:bg-[#FCECEC] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#183B5B]"
           >
-            <FaInstagram size={18} strokeWidth={1.9} className="shrink-0 text-[#B33A3A]" aria-hidden="true" />
+            <FaInstagram size={18} className="shrink-0 text-[#B33A3A]" aria-hidden="true" />
             <span>Instagram · @nandumenspg</span>
           </a>
         </div>
@@ -206,7 +206,7 @@ export default function Footer({
               font-black
               uppercase
               tracking-[0.18em]
-              text-[#183B5B]
+              text-[var(--pg-heading)]
             "
           >
             Explore
@@ -233,7 +233,7 @@ export default function Footer({
                 text-left
                 transition
 
-                hover:bg-[#E8F0F7]
+                hover:bg-[var(--pg-surface-soft)]
               "
             >
               <span
@@ -244,8 +244,8 @@ export default function Footer({
                   items-center
                   justify-center
                   rounded-lg
-                  bg-[#E8F0F7]
-                  text-[#183B5B]
+                  bg-[var(--pg-surface-soft)]
+                  text-[var(--pg-heading)]
                 "
               >
                 <Users size={14} />
@@ -255,10 +255,10 @@ export default function Footer({
                 className="
                   text-sm
                   font-semibold
-                  text-stone-600
+                  text-[var(--pg-text-muted)]
                   transition-colors
 
-                  group-hover:text-[#183B5B]
+                  group-hover:text-[var(--pg-heading)]
                 "
               >
                 Men's PG
@@ -268,11 +268,11 @@ export default function Footer({
                 size={15}
                 className="
                   justify-self-end
-                  text-stone-300
+                  text-[var(--pg-text-muted)]
                   transition-all
 
                   group-hover:translate-x-0.5
-                  group-hover:text-[#183B5B]
+                  group-hover:text-[var(--pg-heading)]
                 "
               />
             </button>
@@ -319,7 +319,7 @@ export default function Footer({
                 className="
                   text-sm
                   font-semibold
-                  text-stone-600
+                  text-[var(--pg-text-muted)]
                   transition-colors
 
                   group-hover:text-[#B33A3A]
@@ -332,7 +332,7 @@ export default function Footer({
                 size={15}
                 className="
                   justify-self-end
-                  text-stone-300
+                  text-[var(--pg-text-muted)]
                   transition-all
 
                   group-hover:translate-x-0.5
@@ -362,7 +362,7 @@ export default function Footer({
                 text-left
                 transition
 
-                hover:bg-[#F7F5EF]
+                hover:bg-[var(--pg-bg)]
               "
             >
               <span
@@ -373,7 +373,7 @@ export default function Footer({
                   items-center
                   justify-center
                   rounded-lg
-                  bg-[#F7F5EF]
+                  bg-[var(--pg-bg)]
                   text-[#B33A3A]
                 "
               >
@@ -384,10 +384,10 @@ export default function Footer({
                 className="
                   text-sm
                   font-semibold
-                  text-stone-600
+                  text-[var(--pg-text-muted)]
                   transition-colors
 
-                  group-hover:text-[#183B5B]
+                  group-hover:text-[var(--pg-heading)]
                 "
               >
                 View Locations
@@ -397,11 +397,11 @@ export default function Footer({
                 size={15}
                 className="
                   justify-self-end
-                  text-stone-300
+                  text-[var(--pg-text-muted)]
                   transition-all
 
                   group-hover:translate-x-0.5
-                  group-hover:text-[#183B5B]
+                  group-hover:text-[var(--pg-heading)]
                 "
               />
             </button>
@@ -419,7 +419,7 @@ export default function Footer({
               font-black
               uppercase
               tracking-[0.18em]
-              text-[#183B5B]
+              text-[var(--pg-heading)]
             "
           >
             Quick Information
@@ -434,8 +434,8 @@ export default function Footer({
                 overflow-hidden
                 rounded-2xl
                 border
-                border-[#E7E2D8]
-                bg-white
+                border-[var(--pg-border)]
+                bg-[var(--pg-surface)]
                 p-3
                 pl-4
                 shadow-sm
@@ -455,19 +455,19 @@ export default function Footer({
                     items-center
                     justify-center
                     rounded-xl
-                    bg-[#E8F0F7]
-                    text-[#183B5B]
+                    bg-[var(--pg-surface-soft)]
+                    text-[var(--pg-heading)]
                   "
                 >
                   <Building2 size={17} />
                 </div>
 
                 <div>
-                  <p className="text-xs font-bold text-stone-800">
+                  <p className="text-xs font-bold text-[var(--pg-text)]">
                     Multiple Locations
                   </p>
 
-                  <p className="mt-0.5 text-[10px] text-stone-500">
+                  <p className="mt-0.5 text-[10px] text-[var(--pg-text-muted)]">
                     Across Hyderabad IT hubs
                   </p>
                 </div>
@@ -482,8 +482,8 @@ export default function Footer({
                 overflow-hidden
                 rounded-2xl
                 border
-                border-[#E7E2D8]
-                bg-white
+                border-[var(--pg-border)]
+                bg-[var(--pg-surface)]
                 p-3
                 pl-4
                 shadow-sm
@@ -511,11 +511,11 @@ export default function Footer({
                 </div>
 
                 <div>
-                  <p className="text-xs font-bold text-stone-800">
+                  <p className="text-xs font-bold text-[var(--pg-text)]">
                     Direct Contact
                   </p>
 
-                  <p className="mt-0.5 text-[10px] text-stone-500">
+                  <p className="mt-0.5 text-[10px] text-[var(--pg-text-muted)]">
                     Call each property directly
                   </p>
                 </div>
@@ -530,8 +530,8 @@ export default function Footer({
                 overflow-hidden
                 rounded-2xl
                 border
-                border-[#E7E2D8]
-                bg-white
+                border-[var(--pg-border)]
+                bg-[var(--pg-surface)]
                 p-3
                 pl-4
                 shadow-sm
@@ -562,7 +562,7 @@ export default function Footer({
                     items-center
                     justify-center
                     rounded-xl
-                    bg-[#F7F5EF]
+                    bg-[var(--pg-bg)]
                     text-[#B33A3A]
                     ring-1
                     ring-[#E7E2D8]
@@ -572,11 +572,11 @@ export default function Footer({
                 </div>
 
                 <div>
-                  <p className="text-xs font-bold text-stone-800">
+                  <p className="text-xs font-bold text-[var(--pg-text)]">
                     Google Maps
                   </p>
 
-                  <p className="mt-0.5 text-[10px] text-stone-500">
+                  <p className="mt-0.5 text-[10px] text-[var(--pg-text-muted)]">
                     Directions for every PG
                   </p>
                 </div>
@@ -630,7 +630,7 @@ export default function Footer({
             font-semibold
             uppercase
             tracking-[0.12em]
-            text-stone-400
+            text-[var(--pg-text-muted)]
           "
         >
           © {new Date().getFullYear()} Nandu
@@ -652,7 +652,7 @@ export default function Footer({
               font-bold
               uppercase
               tracking-[0.12em]
-              text-stone-400
+              text-[var(--pg-text-muted)]
             "
           >
             PG Accommodation · Hyderabad
